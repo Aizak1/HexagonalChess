@@ -18,6 +18,8 @@ namespace mover {
                 return;
             }
 
+            manager.ChangeCollidersState();
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out hit)) {
                 return;
@@ -25,14 +27,17 @@ namespace mover {
 
             if (currentFigure.IsNone()) {
                 var picked = hit.transform.gameObject.GetComponent<Figure>();
-                if (picked == null) {
+
+                if (picked == null || !manager.IsCorrectSelect(picked)) {
                     currentFigure = Option<Figure>.None();
                     return;
                 }
+
                 currentFigure = Option<Figure>.Some(picked);
                 currentFigure.Peel().transform.position += Vector3.up;
 
             } else {
+
                 var cellComponent = hit.collider.gameObject.GetComponent<Cell>();
 
                 if(cellComponent == null) {
@@ -44,15 +49,23 @@ namespace mover {
                 var gameFinalX = cellComponent.gameCoordinates.x;
                 var gameFinalZ = cellComponent.gameCoordinates.y;
 
-                var worldFinalX = cellComponent.transform.position.x;
-                var worldFinalZ = cellComponent.transform.position.z;
+                Move move = new Move {
+                    figure = currentFigure.Peel(),
+                    figureToEat = manager.board[gameFinalX][gameFinalZ],
+                    x = gameFinalX,
+                    z = gameFinalZ
+                };
 
-                if (!manager.IsCorrectMove(currentFigure.Peel(), gameFinalX, gameFinalZ)) {
+                if (!manager.IsCorrectMove(move)) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
                     return;
                 }
 
+                manager.MakeMove(move);
+
+                var worldFinalX = cellComponent.transform.position.x;
+                var worldFinalZ = cellComponent.transform.position.z;
                 var finalPosition = new Vector3(worldFinalX, FIGURES_Y_POSITION, worldFinalZ);
                 currentFigure.Peel().transform.position = finalPosition;
                 currentFigure = Option<Figure>.None();
