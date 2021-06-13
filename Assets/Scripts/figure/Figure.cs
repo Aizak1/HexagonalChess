@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum FigureType {
     Pawn,
+    Rook,
     Knight,
     Bishop,
     Queen,
