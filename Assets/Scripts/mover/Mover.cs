@@ -7,10 +7,10 @@ namespace mover {
         [SerializeField]
         private GameManager manager;
 
-        private Option<Figure> currentFigure;
         private const float FIGURES_Y_POSITION = 0.3f;
         private RaycastHit hit;
 
+        public Option<Figure> currentFigure;
 
         private void Update() {
 
@@ -28,7 +28,7 @@ namespace mover {
             if (currentFigure.IsNone()) {
                 var picked = hit.transform.gameObject.GetComponent<Figure>();
 
-                if (picked == null || !manager.IsCorrectSelect(picked)) {
+                if (picked == null) {
                     currentFigure = Option<Figure>.None();
                     return;
                 }

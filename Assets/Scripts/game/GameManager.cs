@@ -23,15 +23,6 @@ public class GameManager : MonoBehaviour
         InitializeGame();
     }
 
-    public bool IsCorrectSelect(Figure figure) {
-
-        if(figure.isWhite != isWhiteTurn) {
-            return false;
-        }
-
-        return true;
-    }
-
     public bool IsCorrectMove(Move move) {
 
         Figure figure = move.figure;
@@ -48,6 +39,10 @@ public class GameManager : MonoBehaviour
         float halfOfVertical = (float)board[figure.x].Length / 2;
 
         if (figure.isWhite != isWhiteTurn) {
+            return false;
+        }
+
+        if (figureToEat.IsSome() && figureToEat.Peel().isWhite == figure.isWhite) {
             return false;
         }
 
@@ -78,9 +73,6 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                if (figureToEat.IsSome() && figureToEat.Peel().isWhite == figure.isWhite) {
-                    return false;
-                }
 
                 if (figureToEat.IsSome() && !isVertGreater && deltaZ != 1 && move.z > figure.z) {
                     return false;
@@ -182,6 +174,51 @@ public class GameManager : MonoBehaviour
                 board[i][j].Peel().gameObject.GetComponent<Collider>().enabled = isTurnFigure;
             }
         }
+    }
+
+    public List<Move> GetAllTeamMoves(Figure[] allFigures) {
+        List<Move> moves = new List<Move>();
+        foreach (var item in allFigures) {
+
+            if(item.isWhite != isWhiteTurn) {
+                continue;
+            }
+
+            for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+                for (int j = 0; j < board[i].Length; j++) {
+
+                    var move = new Move() {
+                        figure = item,
+                        figureToEat = board[i][j],
+                        x = i,
+                        z = j
+                    };
+                    if (IsCorrectMove(move)) {
+                        moves.Add(move);
+                    }
+                }
+            }
+        }
+        return moves;
+    }
+
+    public List<Move> GetAllCurrentFigureMoves(Figure figure) {
+        List<Move> moves = new List<Move>();
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            for (int j = 0; j < board[i].Length; j++) {
+
+                var move = new Move() {
+                    figure = figure,
+                    figureToEat = board[i][j],
+                    x = i,
+                    z = j
+                };
+                if (IsCorrectMove(move)) {
+                    moves.Add(move);
+                }
+            }
+        }
+        return moves;
     }
 
     public void InitializeGame() {
