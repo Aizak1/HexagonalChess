@@ -34,7 +34,12 @@ public class GameManager : MonoBehaviour
         int initialVerticalLength = board[figure.x].Length;
         int finalVerticalLength = board[move.x].Length;
 
-        bool isVertGreater = (finalVerticalLength - initialVerticalLength) > 0;
+        int deltaLength = finalVerticalLength - initialVerticalLength;
+
+
+        bool isVertGreater = deltaLength > 0;
+        bool isVertLess = deltaLength < 0;
+        bool isVertEquals = deltaLength == 0;
 
         float halfOfVertical = (float)board[figure.x].Length / 2;
 
@@ -45,6 +50,7 @@ public class GameManager : MonoBehaviour
         if (figureToEat.IsSome() && figureToEat.Peel().isWhite == figure.isWhite) {
             return false;
         }
+
 
         switch (figure.type) {
             case FigureType.Pawn:
@@ -69,42 +75,128 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                if (figureToEat.IsSome() && deltaX != 1) {
-                    return false;
+                if (figureToEat.IsSome()) {
+                    if (deltaX != 1) {
+                        return false;
+                    }
+
+                    if (isVertLess && deltaZ != 1 && move.z > figure.z) {
+                        return false;
+                    }
+
+                    if (isVertLess && deltaZ != 2 && move.z < figure.z) {
+                        return false;
+                    }
+
+                    if (isVertGreater && deltaZ != 2 && move.z > figure.z) {
+                        return false;
+                    }
+
+                    if (isVertGreater && deltaZ != 1 && move.z < figure.z) {
+                        return false;
+                    }
                 }
 
 
-                if (figureToEat.IsSome() && !isVertGreater && deltaZ != 1 && move.z > figure.z) {
-                    return false;
-                }
-
-                if (figureToEat.IsSome() && !isVertGreater && deltaZ != 2 && move.z < figure.z) {
-                    return false;
-                }
-
-                if (figureToEat.IsSome() && isVertGreater && deltaZ != 2 && move.z > figure.z) {
-                    return false;
-                }
-
-                if (figureToEat.IsSome() && isVertGreater && deltaZ != 1 && move.z < figure.z) {
-                    return false;
-                }
-
-                if (IsObstacleInDirection(figure, move.x, move.z)) {
-                    return false;
-                }
 
                 break;
             case FigureType.Rook:
+                 if(deltaX != 0) {
+                    return false;
+                }
                 break;
             case FigureType.Knight:
+
+                if(move.z == figure.z) {
+                    return false;
+                }
+
+                if(deltaX > 3) {
+                    return false;
+                }
+
+                if (deltaX == 1) {
+
+                    if(move.z > figure.z && isVertLess && deltaZ != 2) {
+                        return false;
+                    }
+
+                    if(move.z > figure.z && isVertGreater && deltaZ != 3) {
+                        return false;
+                    }
+
+                    if(move.z < figure.z && isVertGreater && deltaZ != 2) {
+                        return false;
+                    }
+
+                    if(move.z < figure.z && isVertLess && deltaZ != 3) {
+                        return false;
+                    }
+
+                } else if (deltaX == 2) {
+
+
+                } else if (deltaX == 3) {
+
+                }
+
                 break;
             case FigureType.Bishop:
                 break;
             case FigureType.Queen:
                 break;
             case FigureType.King:
-                break;
+
+                if(deltaX > 2) {
+                    return false;
+                }
+
+                if(deltaX == 0 && deltaZ > 1) {
+                    return false;
+                }
+
+                if(deltaX == 1) {
+
+                    if(deltaZ > 2) {
+                        return false;
+                    }
+
+                    if (isVertLess && deltaZ > 1 && move.z > figure.z) {
+                        return false;
+                    }
+
+                    if (isVertLess && deltaZ > 2 && move.z < figure.z) {
+                        return false;
+                    }
+
+                    if (isVertGreater && deltaZ > 2 && move.z > figure.z) {
+                        return false;
+                    }
+
+                    if (isVertGreater && deltaZ > 1 && move.z < figure.z) {
+                        return false;
+                    }
+
+                } else if(deltaX == 2) {
+
+                    if (deltaZ != 1 && !isVertEquals) {
+                        return false;
+                    }
+
+                    if (isVertEquals && move.z != figure.z) {
+                        return false;
+                    }
+
+                    if (isVertLess && move.z > figure.z) {
+                        return false;
+                    }
+
+                    if (isVertGreater && move.z < figure.z) {
+                        return false;
+                    }
+
+                }
+              break;
             default:
                 break;
         }
