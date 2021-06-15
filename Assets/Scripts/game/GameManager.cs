@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,20 +29,18 @@ public class GameManager : MonoBehaviour
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
 
-        int deltaX = Mathf.Abs(figure.x - move.x);
-        int deltaZ = Mathf.Abs(figure.z - move.z);
+        int delta2dX = Mathf.Abs(figure.x - move.x);
+        int delta2dZ = Mathf.Abs(figure.z - move.z);
 
-        int initialVerticalLength = board[figure.x].Length;
-        int finalVerticalLength = board[move.x].Length;
+        var initialCoordIn3D = resource.coordinatesMatcher[new Vector2Int(figure.x, figure.z)];
+        var finalCoordIn3D = resource.coordinatesMatcher[new Vector2Int(move.x, move.z)];
 
-        int deltaLength = finalVerticalLength - initialVerticalLength;
-
-
-        bool isVertGreater = deltaLength > 0;
-        bool isVertLess = deltaLength < 0;
-        bool isVertEquals = deltaLength == 0;
+        int delta3dX = Mathf.Abs(initialCoordIn3D.x - finalCoordIn3D.x);
+        int delta3dY = Mathf.Abs(initialCoordIn3D.y - finalCoordIn3D.y);
+        int delta3dZ = Mathf.Abs(initialCoordIn3D.z - finalCoordIn3D.z);
 
         float halfOfVertical = (float)board[figure.x].Length / 2;
+
 
         if (figure.isWhite != isWhiteTurn) {
             return false;
@@ -63,139 +62,86 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                if (figure.moveCount != 0 && figureToEat.IsNone() && deltaZ > 1) {
+                if (figure.moveCount != 0 && figureToEat.IsNone() && delta2dZ > 1) {
                     return false;
                 }
 
-                if (figure.moveCount == 0 && deltaZ >= halfOfVertical - 1) {
+                if (figure.moveCount == 0 && delta2dZ >= halfOfVertical - 1) {
                     return false;
                 }
 
-                if (figureToEat.IsNone() && deltaX > 0) {
+                if (figureToEat.IsNone() && delta2dX > 0) {
                     return false;
                 }
 
                 if (figureToEat.IsSome()) {
-                    if (deltaX != 1) {
+                    if (delta2dX != 1) {
                         return false;
                     }
 
-                    if (isVertLess && deltaZ != 1 && move.z > figure.z) {
-                        return false;
-                    }
-
-                    if (isVertLess && deltaZ != 2 && move.z < figure.z) {
-                        return false;
-                    }
-
-                    if (isVertGreater && deltaZ != 2 && move.z > figure.z) {
-                        return false;
-                    }
-
-                    if (isVertGreater && deltaZ != 1 && move.z < figure.z) {
+                    if (!IsDiagonalMove(delta3dX,delta3dY,delta3dZ)) {
                         return false;
                     }
                 }
-
-
 
                 break;
             case FigureType.Rook:
-                 if(deltaX != 0) {
+
+                if (!IsStraightMove(delta3dX, delta3dY, delta3dZ)) {
                     return false;
                 }
+
                 break;
             case FigureType.Knight:
 
-                if(move.z == figure.z) {
+                if (!IsKnightMove(delta3dX, delta3dY, delta3dZ)){
                     return false;
-                }
-
-                if(deltaX > 3) {
-                    return false;
-                }
-
-                if (deltaX == 1) {
-
-                    if(move.z > figure.z && isVertLess && deltaZ != 2) {
-                        return false;
-                    }
-
-                    if(move.z > figure.z && isVertGreater && deltaZ != 3) {
-                        return false;
-                    }
-
-                    if(move.z < figure.z && isVertGreater && deltaZ != 2) {
-                        return false;
-                    }
-
-                    if(move.z < figure.z && isVertLess && deltaZ != 3) {
-                        return false;
-                    }
-
-                } else if (deltaX == 2) {
-
-
-                } else if (deltaX == 3) {
-
                 }
 
                 break;
             case FigureType.Bishop:
+
+                if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
+                    return false;
+                }
+
                 break;
             case FigureType.Queen:
+
+                if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ) &&
+                    !IsStraightMove(delta3dX,delta3dY,delta3dZ)){
+                    return false;
+                }
+
                 break;
             case FigureType.King:
 
-                if(deltaX > 2) {
+                if(delta2dX > 2) {
                     return false;
                 }
 
-                if(deltaX == 0 && deltaZ > 1) {
+                if(delta2dX == 0 && delta2dZ > 1) {
                     return false;
                 }
 
-                if(deltaX == 1) {
-
-                    if(deltaZ > 2) {
+                if(delta2dX == 1) {
+                    if(!IsStraightMove(delta3dX,delta3dY,delta2dZ)
+                        && !IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
                         return false;
                     }
-
-                    if (isVertLess && deltaZ > 1 && move.z > figure.z) {
-                        return false;
-                    }
-
-                    if (isVertLess && deltaZ > 2 && move.z < figure.z) {
-                        return false;
-                    }
-
-                    if (isVertGreater && deltaZ > 2 && move.z > figure.z) {
-                        return false;
-                    }
-
-                    if (isVertGreater && deltaZ > 1 && move.z < figure.z) {
-                        return false;
-                    }
-
-                } else if(deltaX == 2) {
-
-                    if (deltaZ != 1 && !isVertEquals) {
-                        return false;
-                    }
-
-                    if (isVertEquals && move.z != figure.z) {
-                        return false;
-                    }
-
-                    if (isVertLess && move.z > figure.z) {
-                        return false;
-                    }
-
-                    if (isVertGreater && move.z < figure.z) {
-                        return false;
-                    }
-
                 }
+
+                if(delta2dX == 2) {
+
+                    if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
+                        return false;
+                    }
+
+                    if (delta3dX != 1) {
+                        return false;
+                    }
+                }
+
               break;
             default:
                 break;
@@ -204,36 +150,53 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsObstacleInDirection(Figure figure, int finalX, int finalZ) {
-
-        int initialX = figure.x;
-        int initialZ = figure.z;
-
-        int stepX = 0;
-        int stepZ = 0;
-
-        if (finalZ < initialZ) {
-            stepZ = -1;
-        } else if (finalZ > initialZ) {
-            stepZ = 1;
+    private bool IsDiagonalMove(int delta3dX, int delta3dY, int delta3dZ) {
+        if(delta3dX == delta3dY && delta3dZ != 0) {
+            return true;
         }
 
-
-        if (finalX < initialX) {
-            stepX = -1;
-        } else if (finalX > initialX) {
-            stepX = 1;
+        if(delta3dY == delta3dZ && delta3dX != 0) {
+            return true;
         }
 
-        do {
-            for (int j = initialZ + stepZ; j != finalZ; j+=stepZ) {
-                if (board[initialX][j].IsSome()) {
-                    return true;
-                }
-            }
-            initialX+=stepX;
-        } while (initialX != finalX );
+        if(delta3dX == delta3dZ && delta3dY != 0) {
+            return true;
+        }
 
+        return false;
+    }
+
+    private bool IsStraightMove(int delta3dX, int delta3dY, int delta3dZ) {
+        if(delta3dX != 0 && delta3dY != 0 && delta3dZ != 0) {
+            return false;
+        }
+        return true;
+    }
+
+    private bool IsKnightMove(int delta3dX, int delta3dY, int delta3dZ) {
+        if (delta3dX == 1 && delta3dY == 2 && delta3dZ == 3) {
+            return true;
+        }
+
+        if (delta3dX == 1 && delta3dY == 3 && delta3dZ == 2) {
+            return true;
+        }
+
+        if (delta3dX == 3 && delta3dY == 1 && delta3dZ == 2) {
+            return true;
+        }
+
+        if (delta3dX == 2 && delta3dY == 1 && delta3dZ == 3) {
+            return true;
+        }
+
+        if (delta3dX == 2 && delta3dY == 3 && delta3dZ == 1) {
+            return true;
+        }
+
+        if (delta3dX == 3 && delta3dY == 2 && delta3dZ == 1) {
+            return true;
+        }
 
         return false;
     }
@@ -303,7 +266,7 @@ public class GameManager : MonoBehaviour
                     figure = figure,
                     figureToEat = board[i][j],
                     x = i,
-                    z = j
+                    z = j,
                 };
                 if (IsCorrectMove(move)) {
                     moves.Add(move);

@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 4}
+  coordinatesIn3D: {x: 3, y: 0, z: -3}
 --- !u!4 &14443850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -164,6 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 5}
+  coordinatesIn3D: {x: 4, y: -1, z: -3}
 --- !u!4 &17683728 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -187,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 7}
+  coordinatesIn3D: {x: 3, y: -5, z: 2}
 --- !u!4 &23769187 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -271,6 +274,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 7}
+  coordinatesIn3D: {x: 5, y: -3, z: -2}
 --- !u!4 &25249707 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -294,6 +298,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 1}
+  coordinatesIn3D: {x: -3, y: 2, z: 1}
 --- !u!4 &32321192 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -496,6 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 1}
+  coordinatesIn3D: {x: 1, y: 3, z: -4}
 --- !u!4 &63065503 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -580,6 +586,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 1}
+  coordinatesIn3D: {x: -1, y: 3, z: -2}
 --- !u!4 &67377850 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -664,6 +671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 5}
+  coordinatesIn3D: {x: 1, y: -5, z: 4}
 --- !u!4 &78727551 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -753,6 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 1}
+  coordinatesIn3D: {x: 0, y: 3, z: -3}
 --- !u!1 &175096442 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1165385814476940, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -771,6 +780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 3}
+  coordinatesIn3D: {x: 3, y: 1, z: -4}
 --- !u!4 &175096446 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -794,6 +804,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 2}
+  coordinatesIn3D: {x: -2, y: 1, z: 1}
 --- !u!4 &218683184 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -817,6 +828,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 5}
+  coordinatesIn3D: {x: 1, y: -3, z: 2}
 --- !u!4 &227813685 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -962,6 +974,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 8}
+  coordinatesIn3D: {x: 4, y: -5, z: 1}
 --- !u!4 &264959355 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1060,7 +1073,7 @@ MonoBehaviour:
   cells:
   - {fileID: 1527653222}
   figures:
-  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &326475647
 Transform:
@@ -1270,6 +1283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 6}
+  coordinatesIn3D: {x: 2, y: -3, z: 1}
 --- !u!4 &379846749 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1354,6 +1368,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 7}
+  coordinatesIn3D: {x: 4, y: -3, z: -1}
 --- !u!4 &417516935 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1621,6 +1636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 2}
+  coordinatesIn3D: {x: -2, y: -1, z: 3}
 --- !u!4 &503941303 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1705,6 +1721,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 6}
+  coordinatesIn3D: {x: 4, y: -2, z: -2}
 --- !u!4 &525288893 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1789,6 +1806,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 0}
+  coordinatesIn3D: {x: -4, y: 3, z: 1}
 --- !u!4 &541415988 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1921,6 +1939,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 6}
+  coordinatesIn3D: {x: 2, y: -4, z: 2}
 --- !u!4 &565748380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -1944,6 +1963,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 7}
+  coordinatesIn3D: {x: 3, y: -3, z: 0}
 --- !u!4 &599136337 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2028,6 +2048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 4}
+  coordinatesIn3D: {x: 0, y: -1, z: 1}
 --- !u!4 &662472309 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2112,6 +2133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 2}
+  coordinatesIn3D: {x: 0, y: 2, z: -2}
 --- !u!4 &680067690 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2289,6 +2311,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 4}
+  coordinatesIn3D: {x: 0, y: -4, z: 4}
 --- !u!4 &710640808 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2434,6 +2457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 0}
+  coordinatesIn3D: {x: -4, y: 4, z: 0}
 --- !u!4 &724205017 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2518,6 +2542,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 4}
+  coordinatesIn3D: {x: 4, y: 0, z: -4}
 --- !u!4 &756112601 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2663,6 +2688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 5}
+  coordinatesIn3D: {x: 3, y: -1, z: -2}
 --- !u!4 &779521873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2747,6 +2773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 0}
+  coordinatesIn3D: {x: -3, y: 4, z: -1}
 --- !u!4 &780221439 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2892,6 +2919,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 8}
+  coordinatesIn3D: {x: 5, y: -4, z: -1}
 --- !u!4 &885861539 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2915,6 +2943,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 5}
+  coordinatesIn3D: {x: 1, y: -2, z: 1}
 --- !u!4 &918284764 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2938,6 +2967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 3}
+  coordinatesIn3D: {x: -1, y: -2, z: 3}
 --- !u!4 &928909658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -2961,6 +2991,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 2}
+  coordinatesIn3D: {x: 1, y: 2, z: -3}
 --- !u!4 &937221712 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3167,6 +3198,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 5}
+  coordinatesIn3D: {x: 2, y: -1, z: -1}
 --- !u!4 &943020637 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3251,6 +3283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 3}
+  coordinatesIn3D: {x: -1, y: 0, z: 1}
 --- !u!4 &948478088 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3601,6 +3634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 5}
+  coordinatesIn3D: {x: 5, y: -1, z: -4}
 --- !u!4 &1073550713 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3624,6 +3658,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 0}
+  coordinatesIn3D: {x: -4, y: 2, z: 2}
 --- !u!4 &1076979186 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3765,6 +3800,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 3}
+  coordinatesIn3D: {x: -1, y: -3, z: 4}
 --- !u!4 &1135016587 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3849,6 +3885,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 4}
+  coordinatesIn3D: {x: 2, y: 0, z: -2}
 --- !u!4 &1144389099 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -3994,6 +4031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 4}
+  coordinatesIn3D: {x: 1, y: 0, z: -1}
 --- !u!4 &1180240892 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4083,6 +4121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 0}
+  coordinatesIn3D: {x: -1, y: 4, z: -3}
 --- !u!1001 &1207283802
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4162,6 +4201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 4}
+  coordinatesIn3D: {x: 0, y: -2, z: 2}
 --- !u!4 &1222821903 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4303,6 +4343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 3}
+  coordinatesIn3D: {x: 0, y: 1, z: -1}
 --- !u!4 &1253648881 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4383,6 +4424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 0}
+  coordinatesIn3D: {x: -4, y: 0, z: 4}
 --- !u!4 &1269310723 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4406,6 +4448,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 8}
+  coordinatesIn3D: {x: 4, y: -4, z: 0}
 --- !u!4 &1323549586 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4490,6 +4533,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 6}
+  coordinatesIn3D: {x: 3, y: -2, z: -1}
 --- !u!4 &1367529467 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4570,6 +4614,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 9}
+  coordinatesIn3D: {x: 5, y: -5, z: 0}
 --- !u!4 &1419615982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4758,6 +4803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 2}
+  coordinatesIn3D: {x: -2, y: -2, z: 4}
 --- !u!4 &1470807045 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4781,6 +4827,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 6}
+  coordinatesIn3D: {x: 2, y: -5, z: 3}
 --- !u!4 &1480148872 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4865,6 +4912,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 2}
+  coordinatesIn3D: {x: -2, y: 0, z: 2}
 --- !u!4 &1485289841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4888,6 +4936,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 4}
+  coordinatesIn3D: {x: 0, y: 0, z: 0}
 --- !u!4 &1527653226 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4911,6 +4960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 2}
+  coordinatesIn3D: {x: 2, y: 2, z: -4}
 --- !u!4 &1528300080 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4934,6 +4984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 0}
+  coordinatesIn3D: {x: -4, y: 1, z: 3}
 --- !u!4 &1530054624 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -4957,6 +5008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 6}
+  coordinatesIn3D: {x: 2, y: -2, z: 0}
 --- !u!4 &1545849100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5102,6 +5154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 2}
+  coordinatesIn3D: {x: -1, y: 2, z: -1}
 --- !u!4 &1598257055 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5186,6 +5239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 6}
+  coordinatesIn3D: {x: 5, y: -2, z: -3}
 --- !u!4 &1613322130 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5209,6 +5263,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 1, y: 3}
+  coordinatesIn3D: {x: 2, y: 1, z: -3}
 --- !u!4 &1619773378 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5293,6 +5348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 3, y: 1}
+  coordinatesIn3D: {x: -2, y: 3, z: -1}
 --- !u!4 &1702436584 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5438,6 +5494,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 0}
+  coordinatesIn3D: {x: -2, y: 4, z: -2}
 --- !u!4 &1743568580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5461,6 +5518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 0, y: 0}
+  coordinatesIn3D: {x: 0, y: 4, z: -4}
 --- !u!4 &1772946657 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5545,6 +5603,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 4}
+  coordinatesIn3D: {x: 0, y: -3, z: 3}
 --- !u!4 &1813644480 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5690,6 +5749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 5}
+  coordinatesIn3D: {x: 1, y: -4, z: 3}
 --- !u!4 &1842502094 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5835,6 +5895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 3}
+  coordinatesIn3D: {x: -1, y: 1, z: 0}
 --- !u!4 &1891740402 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -5919,6 +5980,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 2, y: 3}
+  coordinatesIn3D: {x: 1, y: 1, z: -2}
 --- !u!4 &1896625067 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6003,6 +6065,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 5}
+  coordinatesIn3D: {x: 1, y: -1, z: 0}
 --- !u!4 &1906721204 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6148,6 +6211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 5, y: 7}
+  coordinatesIn3D: {x: 3, y: -4, z: 1}
 --- !u!4 &2022228049 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6232,6 +6296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 7, y: 1}
+  coordinatesIn3D: {x: -3, y: 0, z: 3}
 --- !u!4 &2037097954 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6255,6 +6320,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 1}
+  coordinatesIn3D: {x: -3, y: 3, z: 0}
 --- !u!4 &2044759068 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6278,6 +6344,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 3}
+  coordinatesIn3D: {x: -1, y: -1, z: 2}
 --- !u!4 &2046170603 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6423,6 +6490,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 8, y: 1}
+  coordinatesIn3D: {x: -3, y: -1, z: 4}
 --- !u!4 &2061608172 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6507,6 +6575,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 4, y: 2}
+  coordinatesIn3D: {x: -2, y: 2, z: 0}
 --- !u!4 &2124988609 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}
@@ -6574,6 +6643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameCoordinates: {x: 6, y: 1}
+  coordinatesIn3D: {x: -3, y: 1, z: 2}
 --- !u!4 &2141225658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4478303445411596, guid: 2e0f1312996d68349933ef1d0445cd09, type: 3}

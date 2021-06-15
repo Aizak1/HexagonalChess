@@ -53,7 +53,7 @@ namespace mover {
                     figure = currentFigure.Peel(),
                     figureToEat = manager.board[gameFinalX][gameFinalZ],
                     x = gameFinalX,
-                    z = gameFinalZ
+                    z = gameFinalZ,
                 };
 
                 if (!manager.IsCorrectMove(move)) {

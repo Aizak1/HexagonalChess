@@ -9,6 +9,7 @@ public class GameResourceFiller : MonoBehaviour
     [SerializeField]
     private Figure[] figures;
 
+
     [SerializeField]
     private GameResource resource;
 
@@ -18,6 +19,12 @@ public class GameResourceFiller : MonoBehaviour
 
         for (int i = 0; i < cells.Length; i++) {
             resource.figuresToSetup.Add(cells[i], figures[i]);
+        }
+        var allCells = FindObjectsOfType<Cell>();
+        for (int i = 0; i < allCells.Length; i++) {
+            var coordinatesIn2d = allCells[i].gameCoordinates;
+            var coordinateIn3d = allCells[i].coordinatesIn3D;
+            resource.coordinatesMatcher.Add(coordinatesIn2d, coordinateIn3d );
         }
     }
 
