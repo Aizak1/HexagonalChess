@@ -54,24 +54,35 @@ public class GameManager : MonoBehaviour
         switch (figure.type) {
             case FigureType.Pawn:
 
-                if (figure.isWhite && move.z < figure.z) {
-                    return false;
-                }
+                if (figureToEat.IsNone()) {
 
-                if (!figure.isWhite && move.z > figure.z) {
-                    return false;
-                }
+                    if(delta2dX != 0) {
+                        return false;
+                    }
 
-                if (figure.moveCount != 0 && figureToEat.IsNone() && delta2dZ > 1) {
-                    return false;
-                }
+                    if(figure.isWhite && move.z < figure.z) {
+                        return false;
+                    }
 
-                if (figure.moveCount == 0 && delta2dZ >= halfOfVertical - 1) {
-                    return false;
-                }
+                    if (!figure.isWhite && move.z > figure.z) {
+                        return false;
+                    }
 
-                if (figureToEat.IsNone() && delta2dX > 0) {
-                    return false;
+                    if (!IsStraightMove(delta3dX, delta3dY, delta3dZ)) {
+                        return false;
+                    }
+
+                    if(figure.moveCount == 0 && delta2dZ >= halfOfVertical - 1) {
+                        return false;
+                    }
+
+                    if(figure.moveCount != 0 && delta2dZ > 1) {
+                        return false;
+                    }
+
+                    if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                        return false;
+                    }
                 }
 
                 if (figureToEat.IsSome()) {
@@ -88,6 +99,10 @@ public class GameManager : MonoBehaviour
             case FigureType.Rook:
 
                 if (!IsStraightMove(delta3dX, delta3dY, delta3dZ)) {
+                    return false;
+                }
+
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
                     return false;
                 }
 
