@@ -32,12 +32,12 @@ public class GameManager : MonoBehaviour
         int delta2dX = Mathf.Abs(figure.x - move.x);
         int delta2dZ = Mathf.Abs(figure.z - move.z);
 
-        var initialCoordIn3D = resource.coordinatesMatcher[new Vector2Int(figure.x, figure.z)];
-        var finalCoordIn3D = resource.coordinatesMatcher[new Vector2Int(move.x, move.z)];
+        var initCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(figure.x, figure.z)];
+        var finalCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(move.x, move.z)];
 
-        int delta3dX = Mathf.Abs(initialCoordIn3D.x - finalCoordIn3D.x);
-        int delta3dY = Mathf.Abs(initialCoordIn3D.y - finalCoordIn3D.y);
-        int delta3dZ = Mathf.Abs(initialCoordIn3D.z - finalCoordIn3D.z);
+        int delta3dX = Mathf.Abs(initCoordIn3D.x - finalCoordIn3D.x);
+        int delta3dY = Mathf.Abs(initCoordIn3D.y - finalCoordIn3D.y);
+        int delta3dZ = Mathf.Abs(initCoordIn3D.z - finalCoordIn3D.z);
 
         float halfOfVertical = (float)board[figure.x].Length / 2;
 
@@ -148,6 +148,42 @@ public class GameManager : MonoBehaviour
         }
 
         return true;
+    }
+
+    private bool IsObstacleInDiretion(Vector3Int initPos, Vector3Int finalPos) {
+        int deltaSignX = finalPos.x - initPos.x;
+        int deltaSignY = finalPos.y - initPos.y;
+        int deltaSignZ = finalPos.z - initPos.z;
+
+        int stepX = 0;
+        int stepY = 0;
+        int stepZ = 0;
+
+        if(deltaSignX != 0) {
+            stepX = deltaSignX / Mathf.Abs(deltaSignX);
+        }
+        if(deltaSignY != 0) {
+            stepY = deltaSignY / Mathf.Abs(deltaSignY);
+        }
+        if(deltaSignZ != 0) {
+            stepZ = deltaSignZ / Mathf.Abs(deltaSignZ);
+        }
+
+        Vector3Int step = new Vector3Int(stepX, stepY, stepZ);
+        var initialPosition = initPos += step;
+
+        while (initialPosition != finalPos) {
+            var coordinatesIn2d = resource.coordinates3dTo2d[initialPosition];
+            if (board[coordinatesIn2d.x][coordinatesIn2d.y].IsSome()) {
+                return true;
+            }
+            initialPosition += step;
+
+        }
+
+        return false;
+
+
     }
 
     private bool IsDiagonalMove(int delta3dX, int delta3dY, int delta3dZ) {
