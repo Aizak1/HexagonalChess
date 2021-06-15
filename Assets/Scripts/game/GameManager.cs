@@ -119,12 +119,19 @@ public class GameManager : MonoBehaviour
                 if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
                     return false;
                 }
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                    return false;
+                }
 
                 break;
             case FigureType.Queen:
 
                 if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ) &&
                     !IsStraightMove(delta3dX,delta3dY,delta3dZ)){
+                    return false;
+                }
+
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
                     return false;
                 }
 
@@ -166,22 +173,41 @@ public class GameManager : MonoBehaviour
     }
 
     private bool IsObstacleInDiretion(Vector3Int initPos, Vector3Int finalPos) {
-        int deltaSignX = finalPos.x - initPos.x;
-        int deltaSignY = finalPos.y - initPos.y;
-        int deltaSignZ = finalPos.z - initPos.z;
+        int deltaSignedX = finalPos.x - initPos.x;
+        int deltaSignedY = finalPos.y - initPos.y;
+        int deltaSignedZ = finalPos.z - initPos.z;
+
+        int deltaUnsignedX = Mathf.Abs(deltaSignedX);
+        int deltaUnsignedY = Mathf.Abs(deltaSignedY);
+        int deltaUnsignedZ = Mathf.Abs(deltaSignedZ);
 
         int stepX = 0;
         int stepY = 0;
         int stepZ = 0;
 
-        if(deltaSignX != 0) {
-            stepX = deltaSignX / Mathf.Abs(deltaSignX);
-        }
-        if(deltaSignY != 0) {
-            stepY = deltaSignY / Mathf.Abs(deltaSignY);
-        }
-        if(deltaSignZ != 0) {
-            stepZ = deltaSignZ / Mathf.Abs(deltaSignZ);
+        if(deltaSignedX != 0 && deltaSignedY != 0 && deltaSignedZ != 0) {
+            stepX = deltaSignedX / deltaUnsignedX;
+            stepY = deltaSignedY / deltaUnsignedY;
+            stepZ = deltaSignedZ / deltaUnsignedZ;
+
+            if( deltaUnsignedX == deltaUnsignedY) {
+                stepZ *= 2;
+            } else if(deltaUnsignedY == deltaUnsignedZ) {
+                stepX *= 2;
+            } else if(deltaUnsignedX == deltaUnsignedZ) {
+                stepY *= 2;
+            }
+
+        } else {
+            if (deltaSignedX != 0) {
+                stepX = deltaSignedX / deltaUnsignedX;
+            }
+            if (deltaSignedY != 0) {
+                stepY = deltaSignedY / deltaUnsignedY;
+            }
+            if (deltaSignedZ != 0) {
+                stepZ = deltaSignedZ / deltaUnsignedZ;
+            }
         }
 
         Vector3Int step = new Vector3Int(stepX, stepY, stepZ);
@@ -197,8 +223,6 @@ public class GameManager : MonoBehaviour
         }
 
         return false;
-
-
     }
 
     private bool IsDiagonalMove(int delta3dX, int delta3dY, int delta3dZ) {
