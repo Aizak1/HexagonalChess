@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     private const float FIGURES_Y_ON_INSTANTIATE = 0.3f;
 
     public Option<Figure>[][] board = new Option<Figure>[9][];
+    public Move previousMove;
 
     public bool isWhiteTurn;
 
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour
         InitializeGame();
     }
 
-    public bool IsMoveMatchRools(Move move,Option<Figure>[][] board, bool isWhiteTurn) {
+    public bool IsCorrectMovePattern(Move move,Option<Figure>[][] board, bool isWhiteTurn) {
 
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
@@ -281,7 +282,7 @@ public class GameManager : MonoBehaviour
 
     public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
 
-        if (!IsMoveMatchRools(move, board,isWhiteTurn)) {
+        if (!IsCorrectMovePattern(move, board,isWhiteTurn)) {
             return false;
         }
 
@@ -289,6 +290,13 @@ public class GameManager : MonoBehaviour
 
         int initX = move.figure.x;
         int initZ = move.figure.z;
+
+
+        if (move.figureToEat.IsSome()) {
+            var figureToEat = move.figureToEat.Peel();
+            boardCopy[figureToEat.x][figureToEat.z] = Option<Figure>.None();
+        }
+
 
         boardCopy[initX][initZ] = Option<Figure>.None();
         boardCopy[move.x][move.z] = Option<Figure>.Some(move.figure);
@@ -343,7 +351,7 @@ public class GameManager : MonoBehaviour
                 x = king.Peel().x,
                 z = king.Peel().z
             };
-            if (IsMoveMatchRools(move, board,!isWhiteTurn)) {
+            if (IsCorrectMovePattern(move, board,!isWhiteTurn)) {
                 return true;
             }
         }
@@ -352,6 +360,8 @@ public class GameManager : MonoBehaviour
     }
 
     public void MakeMove(Move move) {
+        previousMove = move;
+
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
         figure.moveCount++;
@@ -363,6 +373,7 @@ public class GameManager : MonoBehaviour
 
         if (figureToEat.IsSome()) {
             Destroy(figureToEat.Peel().gameObject);
+            board[figureToEat.Peel().x][figureToEat.Peel().z] = Option<Figure>.None();
         }
         board[move.x][move.z] = Option<Figure>.Some(figure);
         isWhiteTurn = !isWhiteTurn;
