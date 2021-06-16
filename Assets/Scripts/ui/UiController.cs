@@ -35,6 +35,9 @@ public class UiController : MonoBehaviour
         highlightedCells = new List<Cell>();
         var cells = FindObjectsOfType<Cell>();
         var figureMoves = manager.GetAllCurrentFigureMoves(figure);
+        var allfigures = FindObjectsOfType<Figure>();
+        var allMoves = manager.GetAllTeamMoves(allfigures);
+
         foreach (var cell in cells) {
             foreach (var move in figureMoves) {
                 if (cell.gameCoordinates.x == move.x && cell.gameCoordinates.y == move.z) {

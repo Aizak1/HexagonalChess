@@ -317,11 +317,13 @@ public class GameManager : MonoBehaviour
                     continue;
                 }
 
-                if(boardCopy[i][j].Peel().isWhite != isWhiteTurn) {
+                var figure = boardCopy[i][j].Peel();
+
+                if (figure.isWhite != isWhiteTurn) {
                     opponentFigures.Add(boardCopy[i][j].Peel());
                 }
 
-                if(boardCopy[i][j].Peel().type == FigureType.King && boardCopy[i][j].Peel().isWhite == isWhiteTurn) {
+                if(figure.type == FigureType.King && figure.isWhite == isWhiteTurn) {
                     king = Option<Figure>.Some(boardCopy[i][j].Peel());
                 }
 
@@ -363,8 +365,17 @@ public class GameManager : MonoBehaviour
             Destroy(figureToEat.Peel().gameObject);
         }
         board[move.x][move.z] = Option<Figure>.Some(figure);
-
         isWhiteTurn = !isWhiteTurn;
+
+        var allFigures = FindObjectsOfType<Figure>();
+        var moves = GetAllTeamMoves(allFigures);
+        if(moves.Count == 0) {
+            if (isWhiteTurn) {
+                Debug.Log("Black wins");
+            } else {
+                Debug.Log("White wins");
+            }
+        }
     }
 
     public void ChangeCollidersState() {
