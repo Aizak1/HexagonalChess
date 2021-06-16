@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         InitializeGame();
     }
 
-    public bool IsCorrectMove(Move move) {
+    public bool IsMoveMatchRools(Move move,Option<Figure>[][] board, bool isWhiteTurn) {
 
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
@@ -39,8 +39,6 @@ public class GameManager : MonoBehaviour
         int delta3dY = Mathf.Abs(initCoordIn3D.y - finalCoordIn3D.y);
         int delta3dZ = Mathf.Abs(initCoordIn3D.z - finalCoordIn3D.z);
 
-        float halfOfVertical = (float)board[figure.x].Length / 2;
-
 
         if (figure.isWhite != isWhiteTurn) {
             return false;
@@ -53,6 +51,7 @@ public class GameManager : MonoBehaviour
 
         switch (figure.type) {
             case FigureType.Pawn:
+                float halfOfVertical = (float)board[figure.x].Length / 2;
 
                 if (figureToEat.IsNone()) {
 
@@ -80,7 +79,7 @@ public class GameManager : MonoBehaviour
                         return false;
                     }
 
-                    if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                    if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D, board)) {
                         return false;
                     }
                 }
@@ -102,7 +101,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D, board )) {
                     return false;
                 }
 
@@ -119,7 +118,7 @@ public class GameManager : MonoBehaviour
                 if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
                     return false;
                 }
-                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D, board)) {
                     return false;
                 }
 
@@ -131,7 +130,7 @@ public class GameManager : MonoBehaviour
                     return false;
                 }
 
-                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D)) {
+                if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D, board)) {
                     return false;
                 }
 
@@ -172,7 +171,11 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsObstacleInDiretion(Vector3Int initPos, Vector3Int finalPos) {
+    private bool IsObstacleInDiretion(
+        Vector3Int initPos,
+        Vector3Int finalPos,
+        Option<Figure>[][] board
+        ){
         int deltaSignedX = finalPos.x - initPos.x;
         int deltaSignedY = finalPos.y - initPos.y;
         int deltaSignedZ = finalPos.z - initPos.z;
@@ -276,6 +279,76 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
+
+        if (!IsMoveMatchRools(move, board,isWhiteTurn)) {
+            return false;
+        }
+
+        var boardCopy = CreateBoardCopy(board);
+
+        int initX = move.figure.x;
+        int initZ = move.figure.z;
+
+        boardCopy[initX][initZ] = Option<Figure>.None();
+        boardCopy[move.x][move.z] = Option<Figure>.Some(move.figure);
+
+        boardCopy[move.x][move.z].Peel().x = move.x;
+        boardCopy[move.x][move.z].Peel().z = move.z;
+
+        if (IsCheck(boardCopy,isWhiteTurn)) {
+            move.figure.x = initX;
+            move.figure.z = initZ;
+            return false;
+        }
+
+        move.figure.x = initX;
+        move.figure.z = initZ;
+        return true;
+    }
+
+    private bool IsCheck(Option<Figure>[][] boardCopy, bool isWhiteTurn) {
+        Option<Figure> king = Option<Figure>.None();
+        List<Figure> opponentFigures = new List<Figure>();
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            for (int j = 0; j < boardCopy[i].Length; j++) {
+
+                if (boardCopy[i][j].IsNone()) {
+                    continue;
+                }
+
+                if(boardCopy[i][j].Peel().isWhite != isWhiteTurn) {
+                    opponentFigures.Add(boardCopy[i][j].Peel());
+                }
+
+                if(boardCopy[i][j].Peel().type == FigureType.King && boardCopy[i][j].Peel().isWhite == isWhiteTurn) {
+                    king = Option<Figure>.Some(boardCopy[i][j].Peel());
+                }
+
+
+            }
+        }
+
+        if (king.IsNone()) {
+            Debug.LogError("Invalid initialize of game");
+            return true;
+        }
+
+        foreach (var item in opponentFigures) {
+            var move = new Move() {
+                figure = item,
+                figureToEat = king,
+                x = king.Peel().x,
+                z = king.Peel().z
+            };
+            if (IsMoveMatchRools(move, boardCopy,!isWhiteTurn)) {
+                return true;
+            }
+        }
+        return false;
+
+    }
+
     public void MakeMove(Move move) {
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
@@ -323,13 +396,30 @@ public class GameManager : MonoBehaviour
                         x = i,
                         z = j
                     };
-                    if (IsCorrectMove(move)) {
+                    if (IsCorrectMove(move,board,isWhiteTurn)) {
                         moves.Add(move);
                     }
                 }
             }
         }
         return moves;
+    }
+
+
+    private Option<Figure>[][] CreateBoardCopy(Option<Figure>[][] board) {
+        var boardCopy = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
+
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            boardCopy[i] = new Option<Figure>[CELLS_IN_VERTICAL_AMOUNT[i]];
+        }
+
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            for (int j = 0; j < board[i].Length; j++) {
+                boardCopy[i][j] = board[i][j];
+            }
+        }
+
+        return boardCopy;
     }
 
     public List<Move> GetAllCurrentFigureMoves(Figure figure) {
@@ -343,7 +433,7 @@ public class GameManager : MonoBehaviour
                     x = i,
                     z = j,
                 };
-                if (IsCorrectMove(move)) {
+                if (IsCorrectMove(move,board,isWhiteTurn)) {
                     moves.Add(move);
                 }
             }

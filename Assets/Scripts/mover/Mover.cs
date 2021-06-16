@@ -56,7 +56,7 @@ namespace mover {
                     z = gameFinalZ,
                 };
 
-                if (!manager.IsCorrectMove(move)) {
+                if (!manager.IsCorrectMove(move,manager.board,manager.isWhiteTurn)) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
                     return;
