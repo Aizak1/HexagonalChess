@@ -307,24 +307,24 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsCheck(Option<Figure>[][] boardCopy, bool isWhiteTurn) {
+    private bool IsCheck(Option<Figure>[][] board, bool isWhiteTurn) {
         Option<Figure> king = Option<Figure>.None();
         List<Figure> opponentFigures = new List<Figure>();
         for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
-            for (int j = 0; j < boardCopy[i].Length; j++) {
+            for (int j = 0; j < board[i].Length; j++) {
 
-                if (boardCopy[i][j].IsNone()) {
+                if (board[i][j].IsNone()) {
                     continue;
                 }
 
-                var figure = boardCopy[i][j].Peel();
+                var figure = board[i][j].Peel();
 
                 if (figure.isWhite != isWhiteTurn) {
-                    opponentFigures.Add(boardCopy[i][j].Peel());
+                    opponentFigures.Add(board[i][j].Peel());
                 }
 
                 if(figure.type == FigureType.King && figure.isWhite == isWhiteTurn) {
-                    king = Option<Figure>.Some(boardCopy[i][j].Peel());
+                    king = Option<Figure>.Some(board[i][j].Peel());
                 }
 
 
@@ -343,7 +343,7 @@ public class GameManager : MonoBehaviour
                 x = king.Peel().x,
                 z = king.Peel().z
             };
-            if (IsMoveMatchRools(move, boardCopy,!isWhiteTurn)) {
+            if (IsMoveMatchRools(move, board,!isWhiteTurn)) {
                 return true;
             }
         }
@@ -367,9 +367,14 @@ public class GameManager : MonoBehaviour
         board[move.x][move.z] = Option<Figure>.Some(figure);
         isWhiteTurn = !isWhiteTurn;
 
-        var allFigures = FindObjectsOfType<Figure>();
-        var moves = GetAllTeamMoves(allFigures);
+        var moves = GetAllTeamMoves(board,isWhiteTurn);
         if(moves.Count == 0) {
+
+            if (!IsCheck(board, isWhiteTurn)) {
+                Debug.Log("Draw");
+                return;
+            }
+
             if (isWhiteTurn) {
                 Debug.Log("Black wins");
             } else {
@@ -390,14 +395,23 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public List<Move> GetAllTeamMoves(Figure[] allFigures) {
+    public List<Move> GetAllTeamMoves(Option<Figure>[][] board,bool isWhiteTurn) {
         List<Move> moves = new List<Move>();
-        foreach (var item in allFigures) {
+        List<Figure> currentTurnFigures = new List<Figure>();
 
-            if(item.isWhite != isWhiteTurn) {
-                continue;
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            for (int j = 0; j < board[i].Length; j++) {
+                if (board[i][j].IsNone()) {
+                    continue;
+                }
+
+                if(board[i][j].Peel().isWhite == isWhiteTurn) {
+                    currentTurnFigures.Add(board[i][j].Peel());
+                }
             }
+        }
 
+        foreach (var item in currentTurnFigures) {
             for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
                 for (int j = 0; j < board[i].Length; j++) {
 
