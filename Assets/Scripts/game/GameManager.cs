@@ -414,6 +414,14 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
+    private bool IsCastling(Move move,Option<Figure>[][] board) {
+        if(move.figure.moveCount != 0) {
+            return false;
+        }
+
+        return true;
+    }
+
     private bool IsCheck(Option<Figure>[][] board, bool isWhiteTurn) {
         Option<Figure> king = Option<Figure>.None();
         List<Figure> opponentFigures = new List<Figure>();
