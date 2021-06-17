@@ -40,6 +40,8 @@ public class GameManager : MonoBehaviour
         int delta3dY = Mathf.Abs(initCoordIn3D.y - finalCoordIn3D.y);
         int delta3dZ = Mathf.Abs(initCoordIn3D.z - finalCoordIn3D.z);
 
+        Vector3Int absDeltaIn3d = new Vector3Int(delta3dX, delta3dY, delta3dZ);
+
 
         if (figure.isWhite != isWhiteTurn) {
             return false;
@@ -68,7 +70,7 @@ public class GameManager : MonoBehaviour
                         return false;
                     }
 
-                    if (!IsStraightMove(delta3dX, delta3dY, delta3dZ)) {
+                    if (!IsStraightMove(absDeltaIn3d)) {
                         return false;
                     }
 
@@ -90,7 +92,7 @@ public class GameManager : MonoBehaviour
                         return false;
                     }
 
-                    if (!IsDiagonalMove(delta3dX,delta3dY,delta3dZ)) {
+                    if (!IsDiagonalMove(absDeltaIn3d)) {
                         return false;
                     }
                 }
@@ -98,7 +100,7 @@ public class GameManager : MonoBehaviour
                 break;
             case FigureType.Rook:
 
-                if (!IsStraightMove(delta3dX, delta3dY, delta3dZ)) {
+                if (!IsStraightMove(absDeltaIn3d)) {
                     return false;
                 }
 
@@ -109,14 +111,14 @@ public class GameManager : MonoBehaviour
                 break;
             case FigureType.Knight:
 
-                if (!IsKnightMove(delta3dX, delta3dY, delta3dZ)){
+                if (!IsKnightMove(absDeltaIn3d)){
                     return false;
                 }
 
                 break;
             case FigureType.Bishop:
 
-                if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
+                if (!IsDiagonalMove(absDeltaIn3d)) {
                     return false;
                 }
                 if (IsObstacleInDiretion(initCoordIn3D, finalCoordIn3D, board)) {
@@ -126,8 +128,7 @@ public class GameManager : MonoBehaviour
                 break;
             case FigureType.Queen:
 
-                if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ) &&
-                    !IsStraightMove(delta3dX,delta3dY,delta3dZ)){
+                if (!IsDiagonalMove(absDeltaIn3d) && !IsStraightMove(absDeltaIn3d)) {
                     return false;
                 }
 
@@ -147,15 +148,14 @@ public class GameManager : MonoBehaviour
                 }
 
                 if(delta2dX == 1) {
-                    if(!IsStraightMove(delta3dX,delta3dY,delta2dZ)
-                        && !IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
+                    if(!IsStraightMove(absDeltaIn3d) && !IsDiagonalMove(absDeltaIn3d)) {
                         return false;
                     }
                 }
 
                 if(delta2dX == 2) {
 
-                    if (!IsDiagonalMove(delta3dX, delta3dY, delta3dZ)) {
+                    if (!IsDiagonalMove(absDeltaIn3d)) {
                         return false;
                     }
 
@@ -229,51 +229,51 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    private bool IsDiagonalMove(int delta3dX, int delta3dY, int delta3dZ) {
-        if(delta3dX == delta3dY && delta3dZ != 0) {
+    private bool IsDiagonalMove(Vector3Int absDelta3d) {
+        if(absDelta3d.x == absDelta3d.y && absDelta3d.z != 0) {
             return true;
         }
 
-        if(delta3dY == delta3dZ && delta3dX != 0) {
+        if(absDelta3d.y == absDelta3d.z && absDelta3d.x != 0) {
             return true;
         }
 
-        if(delta3dX == delta3dZ && delta3dY != 0) {
+        if(absDelta3d.x == absDelta3d.z && absDelta3d.y != 0) {
             return true;
         }
 
         return false;
     }
 
-    private bool IsStraightMove(int delta3dX, int delta3dY, int delta3dZ) {
-        if(delta3dX != 0 && delta3dY != 0 && delta3dZ != 0) {
+    private bool IsStraightMove(Vector3Int absDelta3d) {
+        if(absDelta3d.x != 0 && absDelta3d.y != 0 && absDelta3d.z != 0) {
             return false;
         }
         return true;
     }
 
-    private bool IsKnightMove(int delta3dX, int delta3dY, int delta3dZ) {
-        if (delta3dX == 1 && delta3dY == 2 && delta3dZ == 3) {
+    private bool IsKnightMove(Vector3Int absDelta3d) {
+        if (absDelta3d.x == 1 && absDelta3d.y == 2 && absDelta3d.z == 3) {
             return true;
         }
 
-        if (delta3dX == 1 && delta3dY == 3 && delta3dZ == 2) {
+        if (absDelta3d.x == 1 && absDelta3d.y == 3 && absDelta3d.z == 2) {
             return true;
         }
 
-        if (delta3dX == 3 && delta3dY == 1 && delta3dZ == 2) {
+        if (absDelta3d.x == 3 && absDelta3d.y == 1 && absDelta3d.z == 2) {
             return true;
         }
 
-        if (delta3dX == 2 && delta3dY == 1 && delta3dZ == 3) {
+        if (absDelta3d.x == 2 && absDelta3d.y == 1 && absDelta3d.z == 3) {
             return true;
         }
 
-        if (delta3dX == 2 && delta3dY == 3 && delta3dZ == 1) {
+        if (absDelta3d.x == 2 && absDelta3d.y == 3 && absDelta3d.z == 1) {
             return true;
         }
 
-        if (delta3dX == 3 && delta3dY == 2 && delta3dZ == 1) {
+        if (absDelta3d.x == 3 && absDelta3d.y == 2 && absDelta3d.z == 1) {
             return true;
         }
 
@@ -292,8 +292,8 @@ public class GameManager : MonoBehaviour
 
         var boardCopy = CreateBoardCopy(board);
 
-        int initX = move.figure.x;
-        int initZ = move.figure.z;
+        int initX = move.initX;
+        int initZ = move.initZ;
 
 
         if (move.figureToEat.IsSome()) {
@@ -325,18 +325,7 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        var prevMoveDelta2dZ = Mathf.Abs(previousMove.figure.z - previousMove.finalZ);
-        var prevMoveDelta2dX = Mathf.Abs(previousMove.figure.x - previousMove.finalX);
-
         if (previousMove.figure.moveCount != 1) {
-            return false;
-        }
-
-        if (prevMoveDelta2dX != 0) {
-            return false;
-        }
-
-        if (prevMoveDelta2dZ == 1) {
             return false;
         }
 
@@ -344,22 +333,38 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
-        if(previousMove.finalZ != move.figure.z) {
+        if(previousMove.finalX != move.finalX) {
             return false;
         }
 
-        if(move.finalX != previousMove.finalX) {
+        var delta2dZ = Mathf.Abs(previousMove.finalZ - previousMove.initZ);
+
+        if(delta2dZ == 1) {
             return false;
         }
 
-        if(move.figure.isWhite && move.finalZ != previousMove.finalZ + 1) {
-            return false;
+        var currentPos = new Vector2Int(move.initX, move.initZ);
+        var initCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(currentPos.x,currentPos.y)];
+
+        Vector2Int eatPos;
+
+        if (previousMove.figure.isWhite) {
+             eatPos = new Vector2Int(previousMove.finalX, previousMove.finalZ - 1);
+        } else {
+             eatPos = new Vector2Int(previousMove.finalX, previousMove.finalZ + 1);
         }
 
-        if (!move.figure.isWhite && move.finalZ != previousMove.finalZ - 1) {
+        var finalCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(eatPos.x,eatPos.y)];
+
+        int delta3dX = Mathf.Abs(initCoordIn3D.x - finalCoordIn3D.x);
+        int delta3dY = Mathf.Abs(initCoordIn3D.y - finalCoordIn3D.y);
+        int delta3dZ = Mathf.Abs(initCoordIn3D.z - finalCoordIn3D.z);
+
+        Vector3Int absDeltaIn3d = new Vector3Int(delta3dX, delta3dY, delta3dZ);
+
+        if (!IsDiagonalMove(absDeltaIn3d)) {
             return false;
         }
-
 
         return true;
     }
@@ -410,12 +415,7 @@ public class GameManager : MonoBehaviour
 
     public void MakeMove(Move move) {
 
-        previousMove = new Move() {
-            figure = move.figure,
-            figureToEat = move.figureToEat,
-            finalX = move.finalX,
-            finalZ = move.finalZ
-        };
+        previousMove = move;
 
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
@@ -484,6 +484,10 @@ public class GameManager : MonoBehaviour
                     var move = new Move() {
                         figure = item,
                         figureToEat = board[i][j],
+
+                        initX = item.x,
+                        initZ = item.z,
+
                         finalX = i,
                         finalZ = j
                     };
@@ -521,6 +525,10 @@ public class GameManager : MonoBehaviour
                 var move = new Move() {
                     figure = figure,
                     figureToEat = board[i][j],
+
+                    initX = figure.x,
+                    initZ = figure.z,
+
                     finalX = i,
                     finalZ = j,
                 };

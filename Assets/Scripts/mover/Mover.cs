@@ -53,6 +53,9 @@ namespace mover {
                     figure = currentFigure.Peel(),
                     figureToEat = manager.board[gameFinalX][gameFinalZ],
 
+                    initX = currentFigure.Peel().x,
+                    initZ = currentFigure.Peel().z,
+
                     finalX = gameFinalX,
                     finalZ = gameFinalZ,
                 };
