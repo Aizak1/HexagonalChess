@@ -21,6 +21,12 @@ public class GameManager : MonoBehaviour
 
     private const float FIGURES_Y_ON_INSTANTIATE = 0.3f;
 
+    private readonly Vector2Int LEFT_WHITE_ROOK_POS = new Vector2Int(0, 0);
+    private readonly Vector2Int RIGHT_WHITE_ROOK_POS = new Vector2Int(8, 0);
+    private readonly Vector2Int LEFT_BLACK_ROOK_POS = new Vector2Int(0, 5);
+    private readonly Vector2Int RIGHT_BLACK_ROOK_POS = new Vector2Int(8, 5);
+
+
     public Option<Figure>[][] board = new Option<Figure>[9][];
     public Move previousMove;
 
@@ -223,7 +229,7 @@ public class GameManager : MonoBehaviour
                 break;
             case FigureType.King:
 
-                if(delta2dX > 2) {
+                if(delta2dX > 3) {
                     return false;
                 }
 
@@ -239,11 +245,21 @@ public class GameManager : MonoBehaviour
 
                 if(delta2dX == 2) {
 
+                    if (!IsCastling(move, board, isWhiteTurn)) {
+                        return false;
+                    }
+
                     if (!IsDiagonalMove(absDeltaIn3d)) {
                         return false;
                     }
 
                     if (delta3dX != 1) {
+                        return false;
+                    }
+                }
+
+                if(delta2dX == 3) {
+                    if (!IsCastling(move,board,isWhiteTurn)) {
                         return false;
                     }
                 }
@@ -414,8 +430,89 @@ public class GameManager : MonoBehaviour
         return true;
     }
 
-    private bool IsCastling(Move move,Option<Figure>[][] board) {
+    private bool IsCastling(Move move,Option<Figure>[][] board,bool isWhiteTurn) {
         if(move.figure.moveCount != 0) {
+            return false;
+        }
+
+        var delta2dX = Mathf.Abs(move.finalX - move.initX);
+
+        if(delta2dX != 2 && delta2dX != 3) {
+            return false;
+        }
+
+        Option<Figure> rookCell;
+
+        if(delta2dX == 2) {
+            if (move.figure.isWhite) {
+                rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
+            } else {
+                rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
+            }
+        } else {
+            if (move.figure.isWhite) {
+                rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
+            } else {
+                rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
+            }
+        }
+
+        if (move.figure.isWhite) {
+            if(delta2dX == 2 && move.finalX < move.initX) {
+                return false;
+            }
+            if(delta2dX == 3 && move.finalX > move.initX) {
+                return false;
+            }
+        } else {
+            if (delta2dX == 3 && move.finalX < move.initX) {
+                return false;
+            }
+            if (delta2dX == 2 && move.finalX > move.initX) {
+                return false;
+            }
+        }
+
+
+        if (rookCell.IsNone()) {
+            return false;
+        }
+
+        if (rookCell.Peel().type != FigureType.Rook) {
+            return false;
+        }
+
+        var rook = rookCell.Peel();
+
+        if (rookCell.Peel().moveCount > 0) {
+            return false;
+        }
+
+
+        var rookCordIn3d = resource.coordinates2dTo3d[new Vector2Int(rook.x,rook.z)];
+        var moveInitCordIn3d = resource.coordinates2dTo3d[new Vector2Int(move.initX, move.initZ)];
+        var moveFinalCordIn3d =
+            resource.coordinates2dTo3d[new Vector2Int(move.finalX, move.finalZ)];
+
+        var moveDelta = moveFinalCordIn3d - moveInitCordIn3d;
+
+        moveDelta.x = Mathf.Abs(moveDelta.x);
+        moveDelta.y = Mathf.Abs(moveDelta.y);
+        moveDelta.z = Mathf.Abs(moveDelta.z);
+
+        if (!IsStraightMove(moveDelta)) {
+            return false;
+        }
+
+        if (IsObstacleInDiretion(moveInitCordIn3d,rookCordIn3d,board)) {
+            return false;
+        }
+
+        if (IsObstacleInDiretion(moveInitCordIn3d, moveFinalCordIn3d, board)) {
+            return false;
+        }
+
+        if (IsCheck(board, isWhiteTurn)) {
             return false;
         }
 
