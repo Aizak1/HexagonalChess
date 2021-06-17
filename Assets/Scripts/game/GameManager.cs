@@ -4,6 +4,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using vjp;
 
+
+public enum GameState {
+    Paused,
+    InProcessing
+}
+
 public class GameManager : MonoBehaviour
 {
 
@@ -19,10 +25,88 @@ public class GameManager : MonoBehaviour
     public Move previousMove;
 
     public bool isWhiteTurn;
+    public GameState gameState;
 
 
     private void Start() {
         InitializeGame();
+    }
+
+    public void MakeMove(Move move) {
+
+        previousMove = move;
+
+        Figure figure = move.figure;
+        Option<Figure> figureToEat = move.figureToEat;
+        figure.moveCount++;
+
+        board[move.initX][move.initZ] = Option<Figure>.None();
+
+        figure.x = move.finalX;
+        figure.z = move.finalZ;
+
+        if (figureToEat.IsSome()) {
+            Destroy(figureToEat.Peel().gameObject);
+            board[figureToEat.Peel().x][figureToEat.Peel().z] = Option<Figure>.None();
+        }
+        board[move.finalX][move.finalZ] = Option<Figure>.Some(figure);
+        isWhiteTurn = !isWhiteTurn;
+
+        var moves = GetAllTeamMoves(board, isWhiteTurn);
+        if (moves.Count == 0) {
+
+            if (!IsCheck(board, isWhiteTurn)) {
+                Debug.Log("Draw");
+                return;
+            }
+
+            if (isWhiteTurn) {
+                Debug.Log("Black wins");
+                gameState = GameState.Paused;
+            } else {
+                Debug.Log("White wins");
+                gameState = GameState.Paused;
+            }
+        }
+    }
+
+    public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
+
+        if (IsEnPassant(move, previousMove)) {
+            move.figureToEat = Option<Figure>.Some(previousMove.figure);
+        }
+
+        if (!IsCorrectMovePattern(move, board, isWhiteTurn)) {
+            return false;
+        }
+
+        var boardCopy = CreateBoardCopy(board);
+
+        int initX = move.initX;
+        int initZ = move.initZ;
+
+
+        if (move.figureToEat.IsSome()) {
+            var figureToEat = move.figureToEat.Peel();
+            boardCopy[figureToEat.x][figureToEat.z] = Option<Figure>.None();
+        }
+
+
+        boardCopy[initX][initZ] = Option<Figure>.None();
+        boardCopy[move.finalX][move.finalZ] = Option<Figure>.Some(move.figure);
+
+        boardCopy[move.finalX][move.finalZ].Peel().x = move.finalX;
+        boardCopy[move.finalX][move.finalZ].Peel().z = move.finalZ;
+
+        if (IsCheck(boardCopy, isWhiteTurn)) {
+            boardCopy[move.finalX][move.finalZ].Peel().x = initX;
+            boardCopy[move.finalX][move.finalZ].Peel().z = initZ;
+            return false;
+        }
+
+        boardCopy[move.finalX][move.finalZ].Peel().x = initX;
+        boardCopy[move.finalX][move.finalZ].Peel().z = initZ;
+        return true;
     }
 
     public bool IsCorrectMovePattern(Move move,Option<Figure>[][] board, bool isWhiteTurn) {
@@ -30,10 +114,10 @@ public class GameManager : MonoBehaviour
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
 
-        int delta2dX = Mathf.Abs(figure.x - move.finalX);
-        int delta2dZ = Mathf.Abs(figure.z - move.finalZ);
+        int delta2dX = Mathf.Abs(move.initX - move.finalX);
+        int delta2dZ = Mathf.Abs(move.initZ - move.finalZ);
 
-        var initCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(figure.x, figure.z)];
+        var initCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(move.initX, move.initZ)];
         var finalCoordIn3D = resource.coordinates2dTo3d[new Vector2Int(move.finalX, move.finalZ)];
 
         int delta3dX = Mathf.Abs(initCoordIn3D.x - finalCoordIn3D.x);
@@ -56,11 +140,11 @@ public class GameManager : MonoBehaviour
             case FigureType.Pawn:
                 float halfOfVertical = (float)board[figure.x].Length / 2;
 
-                if (figure.isWhite && move.finalZ < figure.z) {
+                if (figure.isWhite && move.finalZ < move.initZ) {
                     return false;
                 }
 
-                if (!figure.isWhite && move.finalZ > figure.z) {
+                if (!figure.isWhite && move.finalZ > move.initZ) {
                     return false;
                 }
 
@@ -280,45 +364,6 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
-
-        if (IsEnPassant(move, previousMove)) {
-            move.figureToEat = Option<Figure>.Some(previousMove.figure);
-        }
-
-        if (!IsCorrectMovePattern(move, board,isWhiteTurn)) {
-            return false;
-        }
-
-        var boardCopy = CreateBoardCopy(board);
-
-        int initX = move.initX;
-        int initZ = move.initZ;
-
-
-        if (move.figureToEat.IsSome()) {
-            var figureToEat = move.figureToEat.Peel();
-            boardCopy[figureToEat.x][figureToEat.z] = Option<Figure>.None();
-        }
-
-
-        boardCopy[initX][initZ] = Option<Figure>.None();
-        boardCopy[move.finalX][move.finalZ] = Option<Figure>.Some(move.figure);
-
-        boardCopy[move.finalX][move.finalZ].Peel().x = move.finalX;
-        boardCopy[move.finalX][move.finalZ].Peel().z = move.finalZ;
-
-        if (IsCheck(boardCopy,isWhiteTurn)) {
-            boardCopy[move.finalX][move.finalZ].Peel().x = initX;
-            boardCopy[move.finalX][move.finalZ].Peel().z = initZ;
-            return false;
-        }
-
-        boardCopy[move.finalX][move.finalZ].Peel().x = initX;
-        boardCopy[move.finalX][move.finalZ].Peel().z = initZ;
-        return true;
-    }
-
     private bool IsEnPassant(Move move, Move previousMove) {
 
         if(previousMove == null) {
@@ -402,6 +447,10 @@ public class GameManager : MonoBehaviour
             var move = new Move() {
                 figure = item,
                 figureToEat = king,
+
+                initX = item.x,
+                initZ = item.z,
+
                 finalX = king.Peel().x,
                 finalZ = king.Peel().z
             };
@@ -413,41 +462,6 @@ public class GameManager : MonoBehaviour
 
     }
 
-    public void MakeMove(Move move) {
-
-        previousMove = move;
-
-        Figure figure = move.figure;
-        Option<Figure> figureToEat = move.figureToEat;
-        figure.moveCount++;
-
-        board[figure.x][figure.z] = Option<Figure>.None();
-
-        figure.x = move.finalX;
-        figure.z = move.finalZ;
-
-        if (figureToEat.IsSome()) {
-            Destroy(figureToEat.Peel().gameObject);
-            board[figureToEat.Peel().x][figureToEat.Peel().z] = Option<Figure>.None();
-        }
-        board[move.finalX][move.finalZ] = Option<Figure>.Some(figure);
-        isWhiteTurn = !isWhiteTurn;
-
-        var moves = GetAllTeamMoves(board,isWhiteTurn);
-        if(moves.Count == 0) {
-
-            if (!IsCheck(board, isWhiteTurn)) {
-                Debug.Log("Draw");
-                return;
-            }
-
-            if (isWhiteTurn) {
-                Debug.Log("Black wins");
-            } else {
-                Debug.Log("White wins");
-            }
-        }
-    }
 
     public void ChangeCollidersState() {
         for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
@@ -542,6 +556,7 @@ public class GameManager : MonoBehaviour
 
     public void InitializeGame() {
 
+        gameState = GameState.InProcessing;
         isWhiteTurn = true;
 
         for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
