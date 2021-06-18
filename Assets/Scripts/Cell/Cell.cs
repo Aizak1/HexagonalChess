@@ -9,4 +9,5 @@ public class Cell : MonoBehaviour
     [SerializeField]
     public Vector3Int coordinatesIn3D;
 
+
 }

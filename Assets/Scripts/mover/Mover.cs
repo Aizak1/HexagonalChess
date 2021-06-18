@@ -68,11 +68,6 @@ namespace mover {
                 }
 
                 manager.MakeMove(move);
-
-                var worldFinalX = cellComponent.transform.position.x;
-                var worldFinalZ = cellComponent.transform.position.z;
-                var finalPosition = new Vector3(worldFinalX, FIGURES_Y_POSITION, worldFinalZ);
-                currentFigure.Peel().transform.position = finalPosition;
                 currentFigure = Option<Figure>.None();
             }
 

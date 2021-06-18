@@ -25,9 +25,11 @@ public class GameResourceFiller : MonoBehaviour
 
             var coordinatesIn2d = allCells[i].gameCoordinates;
             var coordinateIn3d = allCells[i].coordinatesIn3D;
+            var worldCoordinates = allCells[i].transform.position;
 
             resource.coordinates2dTo3d.Add(coordinatesIn2d, coordinateIn3d );
             resource.coordinates3dTo2d.Add(coordinateIn3d, coordinatesIn2d);
+            resource.coordinates2dToWorld.Add(coordinatesIn2d, worldCoordinates);
         }
     }
 

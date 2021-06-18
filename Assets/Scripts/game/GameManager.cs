@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private const int BOARD_VERTICALS_AMOUNT = 9;
     private readonly int[] CELLS_IN_VERTICAL_AMOUNT = new int[] { 6, 7, 8, 9, 10, 9, 8, 7, 6 };
 
-    private const float FIGURES_Y_ON_INSTANTIATE = 0.3f;
+    private const float FIGURES_Y_POSITION = 0.3f;
 
     private readonly Vector2Int LEFT_WHITE_ROOK_POS = new Vector2Int(0, 0);
     private readonly Vector2Int RIGHT_WHITE_ROOK_POS = new Vector2Int(8, 0);
@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour
     public void MakeMove(Move move) {
 
         previousMove = move;
+        if (IsCastling(move, board, isWhiteTurn)) {
+            MakeCastling(move, board, isWhiteTurn);
+        }
 
         Figure figure = move.figure;
         Option<Figure> figureToEat = move.figureToEat;
@@ -56,6 +59,7 @@ public class GameManager : MonoBehaviour
             board[figureToEat.Peel().x][figureToEat.Peel().z] = Option<Figure>.None();
         }
         board[move.finalX][move.finalZ] = Option<Figure>.Some(figure);
+        MoveFigurePosition(figure);
         isWhiteTurn = !isWhiteTurn;
 
         var moves = GetAllTeamMoves(board, isWhiteTurn);
@@ -74,6 +78,63 @@ public class GameManager : MonoBehaviour
                 gameState = GameState.Paused;
             }
         }
+    }
+
+    private void MoveFigurePosition(Figure figure) {
+        var cellWorldCoord = resource.coordinates2dToWorld[new Vector2Int(figure.x, figure.z)];
+        var finalPosition = new Vector3(cellWorldCoord.x, FIGURES_Y_POSITION, cellWorldCoord.z);
+        figure.transform.position = finalPosition;
+    }
+
+    private void MakeCastling(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
+        var delta2dX = Mathf.Abs(move.finalX - move.initX);
+
+        Option<Figure> rookCell;
+        Figure rook;
+
+        if (delta2dX == 2) {
+            if (move.figure.isWhite) {
+                rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
+                rook = rookCell.Peel();
+
+                rook.x = 5;
+                rook.z = 0;
+                board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y] = Option<Figure>.None();
+
+            } else {
+                rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
+                rook = rookCell.Peel();
+
+                rook.x = 3;
+                rook.z = 8;
+
+                board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y] = Option<Figure>.None();
+            }
+        } else {
+            if (move.figure.isWhite) {
+                rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
+                rook = rookCell.Peel();
+
+                rook.x = 2;
+                rook.z = 0;
+
+                board[2][0] = Option<Figure>.Some(rook);
+                board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y] = Option<Figure>.None();
+            } else {
+
+                rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
+
+                rook = rookCell.Peel();
+
+                rook.x = 6;
+                rook.z = 7;
+                board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y] = Option<Figure>.None();
+
+            }
+        }
+        board[rook.x][rook.z] = Option<Figure>.Some(rook);
+        MoveFigurePosition(rook);
+
     }
 
     public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
@@ -433,6 +494,10 @@ public class GameManager : MonoBehaviour
             return false;
         }
 
+        if(move.figure.type != FigureType.King) {
+            return false;
+        }
+
         var delta2dX = Mathf.Abs(move.finalX - move.initX);
 
         if(delta2dX != 2 && delta2dX != 3) {
@@ -671,7 +736,7 @@ public class GameManager : MonoBehaviour
 
             var cellPosition = cell.transform.position;
 
-            var position = new Vector3(cellPosition.x, FIGURES_Y_ON_INSTANTIATE, cellPosition.z);
+            var position = new Vector3(cellPosition.x, FIGURES_Y_POSITION, cellPosition.z);
             var rotation = Quaternion.identity;
             var figure = Instantiate(item.Value, position, rotation, transform);
 
