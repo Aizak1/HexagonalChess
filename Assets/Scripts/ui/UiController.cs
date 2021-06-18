@@ -38,7 +38,8 @@ public class UiController : MonoBehaviour
 
         foreach (var cell in cells) {
             foreach (var move in figureMoves) {
-                if (cell.gameCoordinates.x == move.finalX && cell.gameCoordinates.y == move.finalZ) {
+                var gameCoord = cell.gameCoordinates;
+                if (gameCoord.x == move.finalX && gameCoord.y == move.finalZ) {
                     cell.gameObject.GetComponent<MeshRenderer>().material = highlightMaterial;
                     highlightedCells.Add(cell);
                 }

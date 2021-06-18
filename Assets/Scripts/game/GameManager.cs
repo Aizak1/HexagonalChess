@@ -7,7 +7,14 @@ using vjp;
 
 public enum GameState {
     Paused,
-    InProcessing
+    InProcessing,
+    Finished
+}
+
+public enum GameResult {
+    Draw,
+    WhiteWin,
+    BlackWin
 }
 
 public class GameManager : MonoBehaviour
@@ -32,6 +39,7 @@ public class GameManager : MonoBehaviour
 
     public bool isWhiteTurn;
     public GameState gameState;
+    public GameResult gameResult;
 
 
     private void Start() {
@@ -42,7 +50,7 @@ public class GameManager : MonoBehaviour
 
         previousMove = move;
         if (IsCastling(move, board, isWhiteTurn)) {
-            MakeCastling(move, board, isWhiteTurn);
+            MakeCastling(move, board);
         }
 
         Figure figure = move.figure;
@@ -86,7 +94,7 @@ public class GameManager : MonoBehaviour
         figure.transform.position = finalPosition;
     }
 
-    private void MakeCastling(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
+    private void MakeCastling(Move move, Option<Figure>[][] board) {
         var delta2dX = Mathf.Abs(move.finalX - move.initX);
 
         Option<Figure> rookCell;
