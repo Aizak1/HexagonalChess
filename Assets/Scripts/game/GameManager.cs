@@ -246,15 +246,13 @@ public class GameManager : MonoBehaviour
                 if(delta2dX == 2) {
 
                     if (!IsCastling(move, board, isWhiteTurn)) {
-                        return false;
-                    }
+                        if (!IsDiagonalMove(absDeltaIn3d)) {
+                            return false;
+                        }
 
-                    if (!IsDiagonalMove(absDeltaIn3d)) {
-                        return false;
-                    }
-
-                    if (delta3dX != 1) {
-                        return false;
+                        if (delta3dX != 1) {
+                            return false;
+                        }
                     }
                 }
 
