@@ -82,19 +82,21 @@ namespace game {
             var moves = GetAllTeamMoves(board, isWhiteTurn);
             if (moves.Count == 0) {
 
-                if (!IsCheck(board, isWhiteTurn)) {
-                    gameResult = GameResult.Draw;
-                    gameState = GameState.Finished;
-                    return;
-                }
+                gameResult = CalculateGameResult(board, isWhiteTurn);
+                gameState = GameState.Finished;
+            }
 
-                if (isWhiteTurn) {
-                    gameResult = GameResult.BlackWin;
-                    gameState = GameState.Finished;
-                } else {
-                    gameResult = GameResult.WhiteWin;
-                    gameState = GameState.Finished;
-                }
+        }
+
+        public GameResult CalculateGameResult(Option<Figure>[][] board, bool isWhiteTurn) {
+            if (!IsCheck(board, isWhiteTurn)) {
+                return GameResult.Draw;
+            }
+
+            if (isWhiteTurn) {
+                return GameResult.BlackWin;
+            } else {
+                return GameResult.WhiteWin;
             }
 
         }
@@ -672,26 +674,6 @@ namespace game {
 
             board[pawnInTheEnd.x][pawnInTheEnd.y] = Option<Figure>.Some(newFigure);
             Destroy(pawnInTheEnd.gameObject);
-
-            var moves = GetAllTeamMoves(board, isWhiteTurn);
-            if (moves.Count == 0) {
-
-                if (!IsCheck(board, isWhiteTurn)) {
-                    gameResult = GameResult.Draw;
-                    gameState = GameState.Finished;
-                    return;
-                }
-
-                if (isWhiteTurn) {
-                    gameResult = GameResult.BlackWin;
-                    gameState = GameState.Finished;
-                } else {
-                    gameResult = GameResult.WhiteWin;
-                    gameState = GameState.Finished;
-                }
-            } else {
-                gameState = GameState.InProcessing;
-            }
         }
 
         private bool IsPawnRichEndOfTheBoard(Move move, Option<Figure>[][] board) {
