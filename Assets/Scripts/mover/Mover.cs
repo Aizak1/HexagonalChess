@@ -6,6 +6,8 @@ namespace mover {
 
         [SerializeField]
         private GameManager manager;
+        [SerializeField]
+        private UiController uiController;
 
         private RaycastHit hit;
 
@@ -34,6 +36,7 @@ namespace mover {
 
                 currentFigure = Option<Figure>.Some(picked);
                 currentFigure.Peel().transform.position += Vector3.up;
+                uiController.HighlightFigureMoves(picked);
 
             } else {
 
@@ -42,6 +45,7 @@ namespace mover {
                 if(cellComponent == null) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
+                    uiController.UnHighlightFigureMoves();
                     return;
                 }
 
@@ -63,11 +67,14 @@ namespace mover {
                 if (!manager.IsCorrectMove(move,manager.board,manager.isWhiteTurn)) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
+
+                    uiController.UnHighlightFigureMoves();
                     return;
                 }
 
                 manager.MakeMove(move);
                 currentFigure = Option<Figure>.None();
+                uiController.UnHighlightFigureMoves();
             }
 
         }

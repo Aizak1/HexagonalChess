@@ -6,6 +6,7 @@ using vjp;
 
 
 public enum GameState {
+    NotStarted,
     Paused,
     InProcessing,
     Finished
@@ -43,7 +44,7 @@ public class GameManager : MonoBehaviour
 
 
     private void Start() {
-        InitializeGame();
+        gameState = GameState.NotStarted;
     }
 
     public void MakeMove(Move move) {
@@ -74,16 +75,17 @@ public class GameManager : MonoBehaviour
         if (moves.Count == 0) {
 
             if (!IsCheck(board, isWhiteTurn)) {
-                Debug.Log("Draw");
+                gameResult = GameResult.Draw;
+                gameState = GameState.Finished;
                 return;
             }
 
             if (isWhiteTurn) {
-                Debug.Log("Black wins");
-                gameState = GameState.Paused;
+                gameResult = GameResult.BlackWin;
+                gameState = GameState.Finished;
             } else {
-                Debug.Log("White wins");
-                gameState = GameState.Paused;
+                gameResult = GameResult.WhiteWin;
+                gameState = GameState.Finished;
             }
         }
     }
@@ -640,6 +642,7 @@ public class GameManager : MonoBehaviour
 
 
     public void ChangeCollidersState() {
+
         for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
             for (int j = 0; j < board[i].Length; j++) {
                 if (board[i][j].IsNone()) {
@@ -735,10 +738,6 @@ public class GameManager : MonoBehaviour
         gameState = GameState.InProcessing;
         isWhiteTurn = true;
 
-        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
-            board[i] = new Option<Figure>[CELLS_IN_VERTICAL_AMOUNT[i]];
-        }
-
         foreach (var item in resource.figuresToSetup) {
             var cell = item.Key;
 
@@ -753,6 +752,17 @@ public class GameManager : MonoBehaviour
 
             board[figure.x][figure.z] = Option<Figure>.Some(figure);
 
+        }
+    }
+
+    public void ResetGame() {
+        var figuresInGame = FindObjectsOfType<Figure>();
+        board = new Option<Figure>[9][];
+        for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+            board[i] = new Option<Figure>[CELLS_IN_VERTICAL_AMOUNT[i]];
+        }
+        foreach (var item in figuresInGame) {
+            Destroy(item.gameObject);
         }
     }
 

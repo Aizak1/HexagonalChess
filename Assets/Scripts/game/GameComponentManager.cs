@@ -11,7 +11,7 @@ public class GameComponentManager : MonoBehaviour
     private Mover mover;
 
     private void Update() {
-        if(manager.gameState == GameState.Paused) {
+        if(manager.gameState != GameState.InProcessing) {
             mover.enabled = false;
         } else {
             mover.enabled = true;

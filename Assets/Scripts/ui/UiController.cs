@@ -2,13 +2,12 @@ using mover;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UiController : MonoBehaviour
 {
     [SerializeField]
     private GameManager manager;
-    [SerializeField]
-    private Mover mover;
 
     [SerializeField]
     private Material hexagonMaterial;
@@ -17,18 +16,68 @@ public class UiController : MonoBehaviour
 
     public List<Cell> highlightedCells;
 
+    [SerializeField]
+    private Canvas mainMenu;
+    [SerializeField]
+    private Canvas pawnTransformationMenu;
+    [SerializeField]
+    private Canvas endGameCanvas;
+
+    [SerializeField]
+    private Text endGameText;
+
     private void Update() {
+        switch (manager.gameState) {
 
-        if (highlightedCells == null || highlightedCells.Count == 0) {
-            if (mover.currentFigure.IsSome()) {
-                HighlightFigureMoves(mover.currentFigure.Peel());
-            }
-        } else {
-            if (mover.currentFigure.IsNone()) {
-                UnHighlightFigureMoves();
-            }
+            case GameState.NotStarted:
+                mainMenu.enabled = true;
+                pawnTransformationMenu.enabled = false;
+                endGameCanvas.enabled = false;
+                break;
+
+            case GameState.Paused:
+                pawnTransformationMenu.enabled = true;
+                mainMenu.enabled = false;
+                endGameCanvas.enabled = false;
+                break;
+            case GameState.InProcessing:
+
+                pawnTransformationMenu.enabled = false;
+                mainMenu.enabled = false;
+                endGameCanvas.enabled = false;
+
+                break;
+            case GameState.Finished:
+
+                pawnTransformationMenu.enabled = false;
+                mainMenu.enabled = false;
+                endGameCanvas.enabled = true;
+                if (manager.gameResult == GameResult.Draw) {
+
+                    endGameText.text = "Draw";
+
+                } else if(manager.gameResult == GameResult.WhiteWin) {
+
+                    endGameText.text = "White Win";
+
+                } else if(manager.gameResult == GameResult.BlackWin) {
+
+                    endGameText.text = "Black Win";
+
+                }
+                break;
+            default:
+                break;
         }
+    }
 
+    public void StartNewGame() {
+        manager.ResetGame();
+        manager.InitializeGame();
+    }
+
+    public void Quit() {
+        Application.Quit();
     }
 
     public void HighlightFigureMoves(Figure figure) {
