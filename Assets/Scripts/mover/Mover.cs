@@ -7,7 +7,6 @@ namespace mover {
         [SerializeField]
         private GameManager manager;
 
-        private const float FIGURES_Y_POSITION = 0.3f;
         private RaycastHit hit;
 
         public Option<Figure> currentFigure;
