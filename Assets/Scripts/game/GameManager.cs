@@ -37,6 +37,11 @@ namespace game {
         private readonly Vector2Int LEFT_BLACK_ROOK_POS = new Vector2Int(0, 5);
         private readonly Vector2Int RIGHT_BLACK_ROOK_POS = new Vector2Int(8, 5);
 
+        private readonly Vector2Int LEFT_WHITE_ROOK_CASTLING_POS = new Vector2Int(2, 0);
+        private readonly Vector2Int RIGHT_WHITE_ROOK_CASTLING_POS = new Vector2Int(5, 0);
+        private readonly Vector2Int LEFT_BLACK_ROOK_CASTLING_POS = new Vector2Int(3, 8);
+        private readonly Vector2Int RIGHT_BLACK_ROOK_CASTLING_POS = new Vector2Int(6, 7);
+
 
         public Option<Figure>[][] board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
         public Move previousMove;
@@ -118,16 +123,16 @@ namespace game {
                     rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
 
-                    rook.x = 5;
-                    rook.y = 0;
+                    rook.x = RIGHT_WHITE_ROOK_CASTLING_POS.x;
+                    rook.y = RIGHT_WHITE_ROOK_CASTLING_POS.y;
                     board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y] = Option<Figure>.None();
 
                 } else {
                     rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
                     rook = rookCell.Peel();
 
-                    rook.x = 3;
-                    rook.y = 8;
+                    rook.x = LEFT_BLACK_ROOK_CASTLING_POS.x;
+                    rook.y = LEFT_BLACK_ROOK_CASTLING_POS.y;
 
                     board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y] = Option<Figure>.None();
                 }
@@ -136,8 +141,8 @@ namespace game {
                     rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
 
-                    rook.x = 2;
-                    rook.y = 0;
+                    rook.x = LEFT_WHITE_ROOK_CASTLING_POS.x;
+                    rook.y = LEFT_WHITE_ROOK_CASTLING_POS.y;
 
                     board[2][0] = Option<Figure>.Some(rook);
                     board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y] = Option<Figure>.None();
@@ -147,8 +152,8 @@ namespace game {
 
                     rook = rookCell.Peel();
 
-                    rook.x = 6;
-                    rook.y = 7;
+                    rook.x = RIGHT_BLACK_ROOK_CASTLING_POS.x;
+                    rook.y = RIGHT_BLACK_ROOK_CASTLING_POS.y;
                     board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y] = Option<Figure>.None();
 
                 }
