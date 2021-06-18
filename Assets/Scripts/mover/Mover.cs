@@ -1,3 +1,8 @@
+using cell;
+using figure;
+using game;
+using move;
+using ui;
 using UnityEngine;
 using vjp;
 
@@ -50,17 +55,17 @@ namespace mover {
                 }
 
                 var gameFinalX = cellComponent.gameCoordinates.x;
-                var gameFinalZ = cellComponent.gameCoordinates.y;
+                var gameFinalY = cellComponent.gameCoordinates.y;
 
                 Move move = new Move {
                     figure = currentFigure.Peel(),
-                    figureToEat = manager.board[gameFinalX][gameFinalZ],
+                    figureToEat = manager.board[gameFinalX][gameFinalY],
 
                     initX = currentFigure.Peel().x,
-                    initZ = currentFigure.Peel().z,
+                    initY = currentFigure.Peel().y,
 
                     finalX = gameFinalX,
-                    finalZ = gameFinalZ,
+                    finalY = gameFinalY,
                 };
 
 
