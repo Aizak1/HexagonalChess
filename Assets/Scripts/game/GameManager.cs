@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private readonly Vector2Int RIGHT_BLACK_ROOK_POS = new Vector2Int(8, 5);
 
 
-    public Option<Figure>[][] board = new Option<Figure>[9][];
+    public Option<Figure>[][] board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
     public Move previousMove;
 
     public bool isWhiteTurn;
@@ -71,6 +71,11 @@ public class GameManager : MonoBehaviour
         MoveFigurePosition(figure);
         isWhiteTurn = !isWhiteTurn;
 
+        if (IsPawnRichEndOfTheBoard(move, board)) {
+            gameState = GameState.Paused;
+            return;
+        }
+
         var moves = GetAllTeamMoves(board, isWhiteTurn);
         if (moves.Count == 0) {
 
@@ -88,6 +93,7 @@ public class GameManager : MonoBehaviour
                 gameState = GameState.Finished;
             }
         }
+
     }
 
     private void MoveFigurePosition(Figure figure) {
@@ -640,6 +646,64 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void TransformPawnToNewFigure(FigureType figureType) {
+        Figure pawnInTheEnd = previousMove.figure;
+        Figure newFigure;
+        var position = pawnInTheEnd.transform.position;
+        var rotation = pawnInTheEnd.transform.rotation;
+
+        if (pawnInTheEnd.isWhite) {
+            var model = resource.whiteModelsForTransformation[figureType];
+            newFigure = Instantiate(model, position, rotation, transform);
+
+        } else {
+            var model = resource.blackModelsForTransformation[figureType];
+            newFigure = Instantiate(model, position, rotation, transform);
+        }
+
+        newFigure.x = pawnInTheEnd.x;
+        newFigure.z = pawnInTheEnd.z;
+
+        board[pawnInTheEnd.x][pawnInTheEnd.z] = Option<Figure>.Some(newFigure);
+        Destroy(pawnInTheEnd.gameObject);
+
+        var moves = GetAllTeamMoves(board, isWhiteTurn);
+        if (moves.Count == 0) {
+
+            if (!IsCheck(board, isWhiteTurn)) {
+                gameResult = GameResult.Draw;
+                gameState = GameState.Finished;
+                return;
+            }
+
+            if (isWhiteTurn) {
+                gameResult = GameResult.BlackWin;
+                gameState = GameState.Finished;
+            } else {
+                gameResult = GameResult.WhiteWin;
+                gameState = GameState.Finished;
+            }
+        } else {
+            gameState = GameState.InProcessing;
+        }
+    }
+
+    private bool IsPawnRichEndOfTheBoard(Move move,Option<Figure>[][] board) {
+        if(move.figure.type != FigureType.Pawn) {
+            return false;
+        }
+
+        if(move.figure.isWhite && move.finalZ != board[move.finalX].Length - 1) {
+            return false;
+        }
+
+        if(!move.figure.isWhite && move.finalZ != 0) {
+            return false;
+        }
+
+        return true;
+    }
+
 
     public void ChangeCollidersState() {
 
@@ -757,7 +821,7 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame() {
         var figuresInGame = FindObjectsOfType<Figure>();
-        board = new Option<Figure>[9][];
+        board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
         for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
             board[i] = new Option<Figure>[CELLS_IN_VERTICAL_AMOUNT[i]];
         }

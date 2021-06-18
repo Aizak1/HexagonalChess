@@ -9,6 +9,11 @@ public class GameResourceFiller : MonoBehaviour
     [SerializeField]
     private Figure[] figures;
 
+    [SerializeField]
+    private Figure[] whiteModelsForTransformation;
+
+    [SerializeField]
+    private Figure[] blackModelsForTransformation;
 
     [SerializeField]
     private GameResource resource;
@@ -20,6 +25,17 @@ public class GameResourceFiller : MonoBehaviour
         for (int i = 0; i < cells.Length; i++) {
             resource.figuresToSetup.Add(cells[i], figures[i]);
         }
+
+        for (int i = 0; i < whiteModelsForTransformation.Length; i++) {
+            var model = whiteModelsForTransformation[i];
+            resource.whiteModelsForTransformation.Add(model.type, model);
+        }
+
+        for (int i = 0; i < blackModelsForTransformation.Length; i++) {
+            var model = blackModelsForTransformation[i];
+            resource.blackModelsForTransformation.Add(model.type, model);
+        }
+
         var allCells = FindObjectsOfType<Cell>();
         for (int i = 0; i < allCells.Length; i++) {
 

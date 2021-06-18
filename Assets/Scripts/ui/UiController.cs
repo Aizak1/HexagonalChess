@@ -1,4 +1,5 @@
 using mover;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -74,6 +75,14 @@ public class UiController : MonoBehaviour
     public void StartNewGame() {
         manager.ResetGame();
         manager.InitializeGame();
+    }
+
+    public void TransformPawnToNewFigureUi(string figureTypeName) {
+        if(!Enum.TryParse(figureTypeName, out FigureType figureType)) {
+            Debug.LogError("Invalid enum type");
+            return;
+        }
+        manager.TransformPawnToNewFigure(figureType);
     }
 
     public void Quit() {

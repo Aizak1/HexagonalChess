@@ -468,6 +468,16 @@ MonoBehaviour:
   - {fileID: -2297178203455640556, guid: b1d95c04dd54e434aa65855a0f77d30f, type: 3}
   - {fileID: -2297178203455640556, guid: b1d95c04dd54e434aa65855a0f77d30f, type: 3}
   - {fileID: -2297178203455640556, guid: b1d95c04dd54e434aa65855a0f77d30f, type: 3}
+  whiteModelsForTransformation:
+  - {fileID: 2813373593420770440, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  blackModelsForTransformation:
+  - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
+  - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
+  - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
+  - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &55268327
 Transform:
@@ -635,6 +645,16 @@ MonoBehaviour:
   - {fileID: 3325652414195143310, guid: 309659d4eb727d74d91c4875a85edc00, type: 3}
   - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
   - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
+  whiteModelsForTransformation:
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 2813373593420770440, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  blackModelsForTransformation:
+  - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
+  - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
+  - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
+  - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &77186984
 Transform:
@@ -1431,6 +1451,16 @@ MonoBehaviour:
   - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
   - {fileID: 2276565803169275668, guid: 27d2608cb94ae2d44811af52793c3562, type: 3}
   - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  whiteModelsForTransformation:
+  - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: 2813373593420770440, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  blackModelsForTransformation:
+  - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
+  - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
+  - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
+  - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &326475647
 Transform:
@@ -1764,7 +1794,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -1785,7 +1815,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 369299774}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 555382054}
+        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureUi
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Bishop
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &369299774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2890,6 +2932,72 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &558949640
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 558949642}
+  - component: {fileID: 558949641}
+  m_Layer: 0
+  m_Name: 'TestPawnTransformationResoucreFiller '
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &558949641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558949640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3515f12536dce054b888d22e2db52b0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cells:
+  - {fileID: 780221435}
+  - {fileID: 541415984}
+  - {fileID: 2124988605}
+  - {fileID: 1323549582}
+  - {fileID: 724205013}
+  figures:
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: 3325652414195143310, guid: 309659d4eb727d74d91c4875a85edc00, type: 3}
+  - {fileID: 8783620194688328660, guid: 391882f14be491c40962add653844907, type: 3}
+  - {fileID: 2276565803169275668, guid: 27d2608cb94ae2d44811af52793c3562, type: 3}
+  whiteModelsForTransformation:
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 2813373593420770440, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  blackModelsForTransformation:
+  - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
+  - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
+  - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
+  - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
+  resource: {fileID: 1447450044}
+--- !u!4 &558949642
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558949640}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 10.258156, y: -30.361362, z: 35.665646}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &565748375 stripped
 GameObject:
@@ -4025,7 +4133,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -4046,7 +4154,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 883336937}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 555382054}
+        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureUi
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Knight
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &883336937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7248,7 +7368,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.6792453, g: 0.6696333, b: 0.6696333, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -7269,7 +7389,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1661682258}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 555382054}
+        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureUi
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Queen
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1661682258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8013,7 +8145,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.7735849, g: 0.75534, b: 0.75534, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -8034,7 +8166,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1866642935}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 555382054}
+        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureUi
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Rook
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1866642935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8562,6 +8706,16 @@ MonoBehaviour:
   - {fileID: 1527653222}
   figures:
   - {fileID: 2276565803169275668, guid: 27d2608cb94ae2d44811af52793c3562, type: 3}
+  whiteModelsForTransformation:
+  - {fileID: 431532012250030096, guid: f1fc282519e5c4a4daaa864f9c3d446f, type: 3}
+  - {fileID: 3108353785271036091, guid: be3573ba2ba53ea4f8979e64874c493d, type: 3}
+  - {fileID: -7612394519041113835, guid: 85ad2c556fdbd5747ac7f5f67f10e59b, type: 3}
+  - {fileID: 2813373593420770440, guid: 1c0f2faf14460a5478057fd4e0575576, type: 3}
+  blackModelsForTransformation:
+  - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
+  - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
+  - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
+  - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &1972196598
 Transform:
