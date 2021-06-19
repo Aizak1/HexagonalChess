@@ -42,6 +42,14 @@ namespace game {
         private readonly Vector2Int LEFT_BLACK_ROOK_CASTLING_POS = new Vector2Int(3, 8);
         private readonly Vector2Int RIGHT_BLACK_ROOK_CASTLING_POS = new Vector2Int(6, 7);
 
+        private const int LONG_CASTLING_DELTA = 3;
+        private const int SHORT_CASTLING_DELTA = 2;
+
+        private const int STRAIGHT_MOVE_THIRD_COORD_DELTA = 0;
+        private const int DIAGONAL_MOVE_THIRD_COORD_DELTA = 2;
+
+        private const int KING_MAX_2D_X_DELTA = 3;
+
 
         public Option<Figure>[][] board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
         public Move previousMove;
@@ -110,57 +118,6 @@ namespace game {
             var cellWorldCoord = resource.converter2dToWorld[new Vector2Int(figure.x, figure.y)];
             var finalPos = new Vector3(cellWorldCoord.x, FIGURES_Y_POSITION, cellWorldCoord.z);
             figure.transform.position = finalPos;
-        }
-
-        private void MakeCastling(Move move, Option<Figure>[][] board) {
-            var delta2dX = Mathf.Abs(move.finalX - move.initX);
-
-            Option<Figure> rookCell;
-            Figure rook;
-
-            if (delta2dX == 2) {
-                if (move.figure.isWhite) {
-                    rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
-                    rook = rookCell.Peel();
-
-                    rook.x = RIGHT_WHITE_ROOK_CASTLING_POS.x;
-                    rook.y = RIGHT_WHITE_ROOK_CASTLING_POS.y;
-                    board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y] = Option<Figure>.None();
-
-                } else {
-                    rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
-                    rook = rookCell.Peel();
-
-                    rook.x = LEFT_BLACK_ROOK_CASTLING_POS.x;
-                    rook.y = LEFT_BLACK_ROOK_CASTLING_POS.y;
-
-                    board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y] = Option<Figure>.None();
-                }
-            } else {
-                if (move.figure.isWhite) {
-                    rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
-                    rook = rookCell.Peel();
-
-                    rook.x = LEFT_WHITE_ROOK_CASTLING_POS.x;
-                    rook.y = LEFT_WHITE_ROOK_CASTLING_POS.y;
-
-                    board[2][0] = Option<Figure>.Some(rook);
-                    board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y] = Option<Figure>.None();
-                } else {
-
-                    rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
-
-                    rook = rookCell.Peel();
-
-                    rook.x = RIGHT_BLACK_ROOK_CASTLING_POS.x;
-                    rook.y = RIGHT_BLACK_ROOK_CASTLING_POS.y;
-                    board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y] = Option<Figure>.None();
-
-                }
-            }
-            board[rook.x][rook.y] = Option<Figure>.Some(rook);
-            MoveFigurePosition(rook);
-
         }
 
         public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
@@ -276,6 +233,7 @@ namespace game {
                     }
 
                     break;
+
                 case FigureType.Rook:
 
                     if (!IsStraightMove(absDeltaIn3d)) {
@@ -287,6 +245,7 @@ namespace game {
                     }
 
                     break;
+
                 case FigureType.Knight:
 
                     if (!IsKnightMove(absDeltaIn3d)) {
@@ -294,6 +253,7 @@ namespace game {
                     }
 
                     break;
+
                 case FigureType.Bishop:
 
                     if (!IsDiagonalMove(absDeltaIn3d)) {
@@ -304,6 +264,7 @@ namespace game {
                     }
 
                     break;
+
                 case FigureType.Queen:
 
                     if (!IsDiagonalMove(absDeltaIn3d) && !IsStraightMove(absDeltaIn3d)) {
@@ -315,9 +276,10 @@ namespace game {
                     }
 
                     break;
+
                 case FigureType.King:
 
-                    if (delta2dX > 3) {
+                    if (delta2dX > KING_MAX_2D_X_DELTA) {
                         return false;
                     }
 
@@ -344,7 +306,7 @@ namespace game {
                         }
                     }
 
-                    if (delta2dX == 3) {
+                    if (delta2dX == KING_MAX_2D_X_DELTA) {
                         if (!IsCastling(move, board, isWhiteTurn)) {
                             return false;
                         }
@@ -381,14 +343,18 @@ namespace game {
                 stepZ = deltaSignedZ / deltaUnsignedZ;
 
                 if (deltaUnsignedX == deltaUnsignedY) {
-                    stepZ *= 2;
+                    stepZ *= DIAGONAL_MOVE_THIRD_COORD_DELTA;
+
                 } else if (deltaUnsignedY == deltaUnsignedZ) {
-                    stepX *= 2;
+                    stepX *= DIAGONAL_MOVE_THIRD_COORD_DELTA;
+
                 } else if (deltaUnsignedX == deltaUnsignedZ) {
-                    stepY *= 2;
+                    stepY *= DIAGONAL_MOVE_THIRD_COORD_DELTA;
+
                 }
 
             } else {
+
                 if (deltaSignedX != 0) {
                     stepX = deltaSignedX / deltaUnsignedX;
                 }
@@ -416,15 +382,15 @@ namespace game {
         }
 
         private bool IsDiagonalMove(Vector3Int absDelta3d) {
-            if (absDelta3d.x == absDelta3d.y && absDelta3d.z != 0) {
+            if (absDelta3d.x == absDelta3d.y && absDelta3d.z != STRAIGHT_MOVE_THIRD_COORD_DELTA) {
                 return true;
             }
 
-            if (absDelta3d.y == absDelta3d.z && absDelta3d.x != 0) {
+            if (absDelta3d.y == absDelta3d.z && absDelta3d.x != STRAIGHT_MOVE_THIRD_COORD_DELTA) {
                 return true;
             }
 
-            if (absDelta3d.x == absDelta3d.z && absDelta3d.y != 0) {
+            if (absDelta3d.x == absDelta3d.z && absDelta3d.y != STRAIGHT_MOVE_THIRD_COORD_DELTA) {
                 return true;
             }
 
@@ -432,7 +398,10 @@ namespace game {
         }
 
         private bool IsStraightMove(Vector3Int absDelta3d) {
-            if (absDelta3d.x != 0 && absDelta3d.y != 0 && absDelta3d.z != 0) {
+            if (absDelta3d.x != STRAIGHT_MOVE_THIRD_COORD_DELTA
+                && absDelta3d.y != STRAIGHT_MOVE_THIRD_COORD_DELTA
+                && absDelta3d.z != STRAIGHT_MOVE_THIRD_COORD_DELTA
+                ) {
                 return false;
             }
             return true;
@@ -528,38 +497,42 @@ namespace game {
 
             var delta2dX = Mathf.Abs(move.finalX - move.initX);
 
-            if (delta2dX != 2 && delta2dX != 3) {
+            if (delta2dX != SHORT_CASTLING_DELTA && delta2dX != LONG_CASTLING_DELTA) {
                 return false;
             }
 
             Option<Figure> rookCell;
 
-            if (delta2dX == 2) {
+            if (delta2dX == SHORT_CASTLING_DELTA) {
+
                 if (move.figure.isWhite) {
                     rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
                 } else {
                     rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
                 }
+
             } else {
+
                 if (move.figure.isWhite) {
                     rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
                 } else {
                     rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
                 }
+
             }
 
             if (move.figure.isWhite) {
-                if (delta2dX == 2 && move.finalX < move.initX) {
+                if (delta2dX == SHORT_CASTLING_DELTA && move.finalX < move.initX) {
                     return false;
                 }
-                if (delta2dX == 3 && move.finalX > move.initX) {
+                if (delta2dX == LONG_CASTLING_DELTA && move.finalX > move.initX) {
                     return false;
                 }
             } else {
-                if (delta2dX == 3 && move.finalX < move.initX) {
+                if (delta2dX == LONG_CASTLING_DELTA && move.finalX < move.initX) {
                     return false;
                 }
-                if (delta2dX == 2 && move.finalX > move.initX) {
+                if (delta2dX == SHORT_CASTLING_DELTA && move.finalX > move.initX) {
                     return false;
                 }
             }
@@ -611,6 +584,64 @@ namespace game {
             return true;
         }
 
+        private void MakeCastling(Move move, Option<Figure>[][] board) {
+            var delta2dX = Mathf.Abs(move.finalX - move.initX);
+
+            Option<Figure> rookCell;
+            Figure rook;
+
+            if (delta2dX == SHORT_CASTLING_DELTA) {
+                if (move.figure.isWhite) {
+
+                    rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
+                    rook = rookCell.Peel();
+
+                    rook.x = RIGHT_WHITE_ROOK_CASTLING_POS.x;
+                    rook.y = RIGHT_WHITE_ROOK_CASTLING_POS.y;
+                    board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y] = Option<Figure>.None();
+
+
+                } else {
+
+                    rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
+                    rook = rookCell.Peel();
+
+                    rook.x = LEFT_BLACK_ROOK_CASTLING_POS.x;
+                    rook.y = LEFT_BLACK_ROOK_CASTLING_POS.y;
+
+                    board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y] = Option<Figure>.None();
+
+                }
+            } else {
+
+                if (move.figure.isWhite) {
+
+                    rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
+                    rook = rookCell.Peel();
+
+                    rook.x = LEFT_WHITE_ROOK_CASTLING_POS.x;
+                    rook.y = LEFT_WHITE_ROOK_CASTLING_POS.y;
+
+                    board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y] = Option<Figure>.None();
+
+                } else {
+
+                    rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
+
+                    rook = rookCell.Peel();
+
+                    rook.x = RIGHT_BLACK_ROOK_CASTLING_POS.x;
+                    rook.y = RIGHT_BLACK_ROOK_CASTLING_POS.y;
+                    board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y] = Option<Figure>.None();
+
+                }
+            }
+
+            board[rook.x][rook.y] = Option<Figure>.Some(rook);
+            MoveFigurePosition(rook);
+
+        }
+
         private bool IsCheck(Option<Figure>[][] board, bool isWhiteTurn) {
             Option<Figure> king = Option<Figure>.None();
             List<Figure> opponentFigures = new List<Figure>();
@@ -659,6 +690,7 @@ namespace game {
 
         }
 
+
         public void TransformPawnToNewFigure(FigureType figureType) {
             Figure pawnInTheEnd = previousMove.figure;
             Figure newFigure;
@@ -680,6 +712,7 @@ namespace game {
             board[pawnInTheEnd.x][pawnInTheEnd.y] = Option<Figure>.Some(newFigure);
             Destroy(pawnInTheEnd.gameObject);
         }
+
 
         private bool IsPawnRichEndOfTheBoard(Move move, Option<Figure>[][] board) {
             if (move.figure.type != FigureType.Pawn) {
