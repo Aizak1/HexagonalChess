@@ -1,5 +1,6 @@
 using cell;
 using figure;
+using net;
 using UnityEngine;
 
 namespace game {
@@ -16,11 +17,20 @@ namespace game {
         private Figure[] blackModelsForTransformation;
 
         [SerializeField]
+        private Server serverPrefab;
+
+        [SerializeField]
+        private Client clientPrefab;
+
+        [SerializeField]
         private GameResource resource;
 
 
 
         private void Awake() {
+
+            resource.serverPrefab = serverPrefab;
+            resource.clientPrefab = clientPrefab;
 
             for (int i = 0; i < cells.Length; i++) {
                 resource.figuresToSetup.Add(cells[i], figures[i]);

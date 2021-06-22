@@ -1,5 +1,6 @@
 using cell;
 using figure;
+using net;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ namespace game {
 
         public Dictionary<FigureType, Figure> blackModelsForTransformation
             = new Dictionary<FigureType, Figure>();
+
+        public Server serverPrefab;
+        public Client clientPrefab;
 
     }
 }

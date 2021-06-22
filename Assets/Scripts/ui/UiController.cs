@@ -1,6 +1,7 @@
 using cell;
 using figure;
 using game;
+using net;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace ui {
     public class UiController : MonoBehaviour {
         [SerializeField]
         private GameManager manager;
+        [SerializeField]
+        private GameResource resource;
 
         [SerializeField]
         private Material hexagonMaterial;
@@ -98,6 +101,30 @@ namespace ui {
                 manager.gameState = GameState.InProcessing;
             }
 
+        }
+
+        public void HostServerButton() {
+            string hostAddress = "127.0.0.1";
+            try {
+                Server s = Instantiate(resource.serverPrefab);
+                s.Init();
+
+                Client c = Instantiate(resource.clientPrefab);
+                c.ConnectToServer(hostAddress, 6666);
+            } catch (Exception ex) {
+                Debug.Log(ex.Message);
+            }
+        }
+        public void ConnectToServerButton() {
+            string hostAddress = "127.0.0.1";
+
+            try {
+                Client c = Instantiate(resource.clientPrefab);
+                c.ConnectToServer(hostAddress, 6666);
+
+            } catch (Exception ex) {
+                Debug.Log(ex.Message);
+            }
         }
 
         public void Quit() {
