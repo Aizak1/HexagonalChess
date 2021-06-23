@@ -92,5 +92,8 @@ namespace net {
                 }
             }
         }
+        private void OnDestroy() {
+            listener.Stop();
+        }
     }
 }

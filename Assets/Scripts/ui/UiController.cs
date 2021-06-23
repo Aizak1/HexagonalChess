@@ -99,34 +99,10 @@ namespace ui {
         }
 
         public void HostServerButton() {
-            string hostAddress = "127.0.0.1";
-            try {
-                Server server = Instantiate(resource.serverPrefab);
-                server.Init();
-
-                Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, 6666);
-
-                client.manager = manager;
-                manager.client = client;
-                manager.isWhiteTeam = true;
-            } catch (Exception ex) {
-                Debug.Log(ex.Message);
-            }
+            manager.CreateHostPlayer();
         }
         public void ConnectToServerButton() {
-            string hostAddress = "127.0.0.1";
-
-            try {
-                Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, 6666);
-                client.manager = manager;
-                manager.client = client;
-                manager.isWhiteTeam = false;
-
-            } catch (Exception ex) {
-                Debug.Log(ex.Message);
-            }
+            manager.CreateClientPlayer();
         }
 
         public void Quit() {

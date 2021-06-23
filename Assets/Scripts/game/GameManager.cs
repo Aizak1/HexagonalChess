@@ -864,6 +864,40 @@ namespace game {
             return moves;
         }
 
+        public void CreateHostPlayer() {
+            string hostAddress = "127.0.0.1";
+            try {
+                Server server = Instantiate(resource.serverPrefab);
+                server.Init();
+                this.server = server;
+
+                Client client = Instantiate(resource.clientPrefab);
+                client.ConnectToServer(hostAddress, 6666);
+
+                client.manager = this;
+                this.client = client;
+                isWhiteTeam = true;
+            } catch (Exception ex) {
+                Debug.Log(ex.Message);
+            }
+        }
+
+        public void CreateClientPlayer() {
+            string hostAddress = "127.0.0.1";
+
+            try {
+                Client client = Instantiate(resource.clientPrefab);
+                client.ConnectToServer(hostAddress, 6666);
+                client.manager = this;
+                this.client = client;
+                isWhiteTeam = false;
+
+            } catch (Exception ex) {
+                Debug.Log(ex.Message);
+            }
+        }
+
+
         public void InitializeGame() {
 
             gameState = GameState.InProcessing;
