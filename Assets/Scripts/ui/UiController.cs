@@ -41,6 +41,9 @@ namespace ui {
                     break;
 
                 case GameState.Paused:
+                    if(manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
+                        return;
+                    }
                     pawnTransformationMenu.enabled = true;
                     mainMenu.enabled = false;
                     endGameCanvas.enabled = false;
@@ -87,19 +90,11 @@ namespace ui {
                 return;
             }
             manager.TransformPawnToNewFigure(figureType);
-
-            var board = manager.board;
-            var isWhiteTurn = manager.isWhiteTurn;
-
-            var moves = manager.GetAllTeamMoves(board, isWhiteTurn);
-
-            if(moves.Count == 0) {
-                manager.gameResult = manager.CalculateGameResult(board,isWhiteTurn);
-                manager.gameState = GameState.Finished;
-
-            } else {
-                manager.gameState = GameState.InProcessing;
+            if(manager.client != null) {
+                string msg = $"TRANSFORM|{(int)figureType}";
+                manager.client.Send(msg);
             }
+
 
         }
 

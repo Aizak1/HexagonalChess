@@ -101,6 +101,14 @@ namespace game {
                 isWhiteTeam = !isWhiteTeam;
             }
 
+            if (client != null && isWhiteTeam != isWhiteTurn) {
+                string sendData =
+                    $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
+                Debug.Log(sendData);
+                client.Send(sendData);
+
+            }
+
             if (IsPawnRichEndOfTheBoard(move, board)) {
                 gameState = GameState.Paused;
                 return;
@@ -111,14 +119,6 @@ namespace game {
 
                 gameResult = CalculateGameResult(board, isWhiteTurn);
                 gameState = GameState.Finished;
-            }
-
-            if (client != null && isWhiteTeam != isWhiteTurn) {
-                string sendData =
-                    $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
-                Debug.Log(sendData);
-                client.Send(sendData);
-
             }
 
 
@@ -745,6 +745,16 @@ namespace game {
 
             board[pawnInTheEnd.x][pawnInTheEnd.y] = Option<Figure>.Some(newFigure);
             Destroy(pawnInTheEnd.gameObject);
+
+            var moves = GetAllTeamMoves(board, isWhiteTurn);
+
+            if (moves.Count == 0) {
+                gameResult = CalculateGameResult(board, isWhiteTurn);
+                gameState = GameState.Finished;
+
+            } else {
+                gameState = GameState.InProcessing;
+            }
         }
 
 

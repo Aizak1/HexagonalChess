@@ -4,6 +4,7 @@ using System.IO;
 using System;
 using game;
 using move;
+using figure;
 
 namespace net {
     public class Client : MonoBehaviour {
@@ -51,6 +52,11 @@ namespace net {
                     manager.ResetGame();
                     manager.InitializeGame();
 
+                    break;
+
+                case "TRANSFORM":
+                    var figureType = (FigureType)int.Parse(sendData[1]);
+                    manager.TransformPawnToNewFigure(figureType);
                     break;
             }
         }
