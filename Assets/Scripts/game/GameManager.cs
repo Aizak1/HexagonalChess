@@ -70,7 +70,12 @@ namespace game {
 
         public void MakeMove(Move move) {
 
+            if (IsEnPassant(move, previousMove)) {
+                move.figureToEat = Option<Figure>.Some(previousMove.figure);
+            }
+
             previousMove = move;
+
             if (IsCastling(move, board, isWhiteTurn)) {
                 MakeCastling(move, board);
             }
@@ -138,10 +143,6 @@ namespace game {
         }
 
         public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
-
-            if (IsEnPassant(move, previousMove)) {
-                move.figureToEat = Option<Figure>.Some(previousMove.figure);
-            }
 
             if (!IsCorrectMovePattern(move, board, isWhiteTurn)) {
                 return false;
@@ -217,6 +218,10 @@ namespace game {
                     }
 
                     if (figureToEat.IsNone()) {
+
+                        if (IsEnPassant(move,previousMove)) {
+                            return true;
+                        }
 
                         if (delta2dX != 0) {
                             return false;
@@ -470,6 +475,7 @@ namespace game {
                 return false;
             }
 
+
             var delta2dY = Mathf.Abs(previousMove.finalY - previousMove.initY);
 
             if (delta2dY == 1) {
@@ -486,6 +492,10 @@ namespace game {
                 eatPos = new Vector2Int(previousMove.finalX, previousMove.finalY - 1);
             } else {
                 eatPos = new Vector2Int(previousMove.finalX, previousMove.finalY + 1);
+            }
+
+            if(move.finalY != eatPos.y) {
+                return false;
             }
 
             var finalCoordIn3D = resource.converter2dTo3d[new Vector2Int(eatPos.x, eatPos.y)];
