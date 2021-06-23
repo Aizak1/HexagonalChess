@@ -27,6 +27,8 @@ namespace ui {
         private Canvas pawnTransformationMenu;
         [SerializeField]
         private Canvas endGameCanvas;
+        [SerializeField]
+        private Canvas gameMenu;
 
         [SerializeField]
         private Text endGameText;
@@ -38,6 +40,7 @@ namespace ui {
                     mainMenu.enabled = true;
                     pawnTransformationMenu.enabled = false;
                     endGameCanvas.enabled = false;
+                    gameMenu.enabled = false;
                     break;
 
                 case GameState.Paused:
@@ -47,9 +50,11 @@ namespace ui {
                     pawnTransformationMenu.enabled = true;
                     mainMenu.enabled = false;
                     endGameCanvas.enabled = false;
+                    gameMenu.enabled = false;
                     break;
                 case GameState.InProcessing:
 
+                    gameMenu.enabled = true;
                     pawnTransformationMenu.enabled = false;
                     mainMenu.enabled = false;
                     endGameCanvas.enabled = false;
@@ -57,9 +62,10 @@ namespace ui {
                     break;
                 case GameState.Finished:
 
+                    endGameCanvas.enabled = true;
                     pawnTransformationMenu.enabled = false;
                     mainMenu.enabled = false;
-                    endGameCanvas.enabled = true;
+                    gameMenu.enabled = false;
                     if (manager.gameResult == GameResult.Draw) {
 
                         endGameText.text = "Draw";

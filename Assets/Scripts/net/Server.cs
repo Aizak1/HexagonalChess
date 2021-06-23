@@ -75,7 +75,6 @@ namespace net {
 
             var tcpClient = listener.EndAcceptTcpClient(ar);
             clients.Add(tcpClient);
-            Debug.Log("Client conencted");
             if (clients.Count != 2) {
                 StartListening();
                 return;
