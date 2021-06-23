@@ -1,10 +1,12 @@
 using figure;
 using move;
+using net;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using vjp;
+using mover;
 
 namespace game {
     public enum GameState {
@@ -24,6 +26,8 @@ namespace game {
 
         [SerializeField]
         private GameResource resource;
+
+        public Client client;
 
         private const int BOARD_VERTICALS_AMOUNT = 9;
 
@@ -55,6 +59,7 @@ namespace game {
         public Move previousMove;
 
         public bool isWhiteTurn;
+        public bool isWhiteTeam = true;
         public GameState gameState;
         public GameResult gameResult;
 
@@ -87,6 +92,10 @@ namespace game {
             MoveFigurePosition(figure);
             isWhiteTurn = !isWhiteTurn;
 
+            if (client == null) {
+                isWhiteTeam = !isWhiteTeam;
+            }
+
             if (IsPawnRichEndOfTheBoard(move, board)) {
                 gameState = GameState.Paused;
                 return;
@@ -98,6 +107,7 @@ namespace game {
                 gameResult = CalculateGameResult(board, isWhiteTurn);
                 gameState = GameState.Finished;
             }
+
 
         }
 
@@ -118,6 +128,13 @@ namespace game {
             var cellWorldCoord = resource.converter2dToWorld[new Vector2Int(figure.x, figure.y)];
             var finalPos = new Vector3(cellWorldCoord.x, FIGURES_Y_POSITION, cellWorldCoord.z);
             figure.transform.position = finalPos;
+        }
+
+        public bool IsCorrectSelect(Figure figure) {
+            if(figure.isWhite != isWhiteTeam) {
+                return false;
+            }
+            return true;
         }
 
         public bool IsCorrectMove(Move move, Option<Figure>[][] board, bool isWhiteTurn) {

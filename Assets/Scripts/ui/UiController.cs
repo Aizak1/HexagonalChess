@@ -111,6 +111,7 @@ namespace ui {
 
                 Client c = Instantiate(resource.clientPrefab);
                 c.ConnectToServer(hostAddress, 6666);
+                manager.client = c;
             } catch (Exception ex) {
                 Debug.Log(ex.Message);
             }
@@ -121,6 +122,7 @@ namespace ui {
             try {
                 Client c = Instantiate(resource.clientPrefab);
                 c.ConnectToServer(hostAddress, 6666);
+                manager.client = c;
 
             } catch (Exception ex) {
                 Debug.Log(ex.Message);

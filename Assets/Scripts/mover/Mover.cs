@@ -18,6 +18,7 @@ namespace mover {
 
         public Option<Figure> currentFigure;
 
+
         private void Update() {
 
             if (!Input.GetMouseButtonDown(0)) {
@@ -34,7 +35,7 @@ namespace mover {
             if (currentFigure.IsNone()) {
                 var picked = hit.transform.gameObject.GetComponent<Figure>();
 
-                if (picked == null) {
+                if (picked == null || !manager.IsCorrectSelect(picked)) {
                     currentFigure = Option<Figure>.None();
                     return;
                 }
