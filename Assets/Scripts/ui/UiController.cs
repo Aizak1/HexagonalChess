@@ -106,12 +106,15 @@ namespace ui {
         public void HostServerButton() {
             string hostAddress = "127.0.0.1";
             try {
-                Server s = Instantiate(resource.serverPrefab);
-                s.Init();
+                Server server = Instantiate(resource.serverPrefab);
+                server.Init();
 
-                Client c = Instantiate(resource.clientPrefab);
-                c.ConnectToServer(hostAddress, 6666);
-                manager.client = c;
+                Client client = Instantiate(resource.clientPrefab);
+                client.ConnectToServer(hostAddress, 6666);
+
+                client.manager = manager;
+                manager.client = client;
+                manager.isWhiteTeam = true;
             } catch (Exception ex) {
                 Debug.Log(ex.Message);
             }
@@ -120,9 +123,11 @@ namespace ui {
             string hostAddress = "127.0.0.1";
 
             try {
-                Client c = Instantiate(resource.clientPrefab);
-                c.ConnectToServer(hostAddress, 6666);
-                manager.client = c;
+                Client client = Instantiate(resource.clientPrefab);
+                client.ConnectToServer(hostAddress, 6666);
+                client.manager = manager;
+                manager.client = client;
+                manager.isWhiteTeam = false;
 
             } catch (Exception ex) {
                 Debug.Log(ex.Message);

@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Sockets;
 using System.IO;
 using System;
 using game;
+using move;
 
 namespace net {
     public class Client : MonoBehaviour {
@@ -34,7 +33,26 @@ namespace net {
         }
 
         private void ProcessIncomingData(string data) {
+            string[] sendData = data.Split('|');
 
+            switch (sendData[0]) {
+                case "MOVE":
+                    Move move = new Move {
+                        initX = int.Parse(sendData[1]),
+                        initY = int.Parse(sendData[2]),
+                        finalX = int.Parse(sendData[3]),
+                        finalY = int.Parse(sendData[4])
+                    };
+                    manager.MakeMove(move);
+
+                    break;
+                case "START":
+
+                    manager.ResetGame();
+                    manager.InitializeGame();
+
+                    break;
+            }
         }
 
         public bool ConnectToServer(string host, int port) {

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using UnityEngine;
@@ -22,11 +23,46 @@ namespace net {
                 listener.Start();
 
                 StartListening();
-                isServerProcesing = true;
+                isServerProcesing = false;
 
             } catch (Exception ex) {
 
                 Debug.LogError($"Socket error: {ex.Message}");
+                return;
+            }
+        }
+
+        private void Update() {
+            if (!isServerProcesing) {
+                return;
+            }
+
+            foreach (var client in clients) {
+                NetworkStream stream = client.GetStream();
+                if (stream.DataAvailable) {
+                    StreamReader reader = new StreamReader(stream, true);
+                    string data = reader.ReadLine();
+                    if(data != null) {
+                        ProcessIncomingData(client, data);
+                    }
+                }
+            }
+        }
+
+        private void ProcessIncomingData(TcpClient client, string data) {
+            TcpClient clientForSend = new TcpClient();
+            foreach (var item in clients) {
+                if(item != client) {
+                    clientForSend = item;
+                }
+            }
+
+            try {
+                StreamWriter writer = new StreamWriter(clientForSend.GetStream());
+                writer.WriteLine(data);
+                writer.Flush();
+            } catch (Exception ex) {
+                Debug.Log("Write error : " + ex.Message);
                 return;
             }
         }
@@ -40,8 +76,21 @@ namespace net {
             var tcpClient = listener.EndAcceptTcpClient(ar);
             clients.Add(tcpClient);
             Debug.Log("Client conencted");
-
-            StartListening();
+            if (clients.Count != 2) {
+                StartListening();
+                return;
+            }
+            isServerProcesing = true;
+            foreach (var item in clients) {
+                try {
+                    StreamWriter writer = new StreamWriter(item.GetStream());
+                    writer.WriteLine("START");
+                    writer.Flush();
+                } catch (Exception ex) {
+                    Debug.Log("Write error : " + ex.Message);
+                    return;
+                }
+            }
         }
     }
 }

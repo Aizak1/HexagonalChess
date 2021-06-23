@@ -1737,6 +1737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resource: {fileID: 1447450044}
   client: {fileID: 0}
+  server: {fileID: 0}
   isWhiteTurn: 0
   isWhiteTeam: 1
   gameState: 0

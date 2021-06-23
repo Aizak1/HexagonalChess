@@ -28,6 +28,7 @@ namespace game {
         private GameResource resource;
 
         public Client client;
+        public Server server;
 
         private const int BOARD_VERTICALS_AMOUNT = 9;
 
@@ -98,6 +99,15 @@ namespace game {
 
             if (client == null) {
                 isWhiteTeam = !isWhiteTeam;
+            } else {
+                if(isWhiteTeam != isWhiteTurn) {
+
+                    string sendData =
+                        $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
+                    Debug.Log(sendData);
+                    client.Send(sendData);
+
+                }
             }
 
             if (IsPawnRichEndOfTheBoard(move, board)) {
@@ -510,7 +520,9 @@ namespace game {
         }
 
         private bool IsCastling(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
+
             Figure figure = board[move.initX][move.initY].Peel();
+
             if (figure.moveCount != 0) {
                 return false;
             }
@@ -847,7 +859,9 @@ namespace game {
 
             gameState = GameState.InProcessing;
             isWhiteTurn = true;
-            isWhiteTeam = true;
+            if(client == null) {
+                isWhiteTeam = true;
+            }
 
             foreach (var item in resource.figuresToSetup) {
                 var cell = item.Key;
