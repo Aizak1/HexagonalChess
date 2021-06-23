@@ -99,15 +99,6 @@ namespace game {
 
             if (client == null) {
                 isWhiteTeam = !isWhiteTeam;
-            } else {
-                if(isWhiteTeam != isWhiteTurn) {
-
-                    string sendData =
-                        $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
-                    Debug.Log(sendData);
-                    client.Send(sendData);
-
-                }
             }
 
             if (IsPawnRichEndOfTheBoard(move, board)) {
@@ -120,6 +111,14 @@ namespace game {
 
                 gameResult = CalculateGameResult(board, isWhiteTurn);
                 gameState = GameState.Finished;
+            }
+
+            if (client != null && isWhiteTeam != isWhiteTurn) {
+                string sendData =
+                    $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
+                Debug.Log(sendData);
+                client.Send(sendData);
+
             }
 
 
