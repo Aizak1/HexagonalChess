@@ -13,7 +13,9 @@ namespace game {
         NotStarted,
         Paused,
         InProcessing,
-        Finished
+        Finished,
+        Waiting,
+        Connecting
     }
 
     public enum GameResult {
@@ -881,8 +883,10 @@ namespace game {
             }
         }
 
-        public void CreateClientPlayer() {
-            string hostAddress = "127.0.0.1";
+        public void CreateClientPlayer(string hostAddress) {
+            if (string.IsNullOrWhiteSpace(hostAddress)) {
+                hostAddress = "127.0.0.1";
+            }
 
             try {
                 Client client = Instantiate(resource.clientPrefab);

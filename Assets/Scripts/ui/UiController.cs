@@ -31,41 +31,36 @@ namespace ui {
         private Canvas gameMenu;
 
         [SerializeField]
+        private Canvas connectingMenu;
+        [SerializeField]
+        private Canvas waitingMenu;
+
+        [SerializeField]
         private Text endGameText;
+        [SerializeField]
+        private InputField ipInputField;
 
         private void Update() {
             switch (manager.gameState) {
 
                 case GameState.NotStarted:
-                    mainMenu.enabled = true;
-                    pawnTransformationMenu.enabled = false;
-                    endGameCanvas.enabled = false;
-                    gameMenu.enabled = false;
+                    EnableCanvas(mainMenu);
                     break;
 
                 case GameState.Paused:
                     if(manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
                         return;
                     }
-                    pawnTransformationMenu.enabled = true;
-                    mainMenu.enabled = false;
-                    endGameCanvas.enabled = false;
-                    gameMenu.enabled = false;
+                    EnableCanvas(pawnTransformationMenu);
                     break;
                 case GameState.InProcessing:
 
-                    gameMenu.enabled = true;
-                    pawnTransformationMenu.enabled = false;
-                    mainMenu.enabled = false;
-                    endGameCanvas.enabled = false;
+                    EnableCanvas(gameMenu);
 
                     break;
                 case GameState.Finished:
 
-                    endGameCanvas.enabled = true;
-                    pawnTransformationMenu.enabled = false;
-                    mainMenu.enabled = false;
-                    gameMenu.enabled = false;
+                    EnableCanvas(endGameCanvas);
                     if (manager.gameResult == GameResult.Draw) {
 
                         endGameText.text = "Draw";
@@ -80,9 +75,27 @@ namespace ui {
 
                     }
                     break;
+                case GameState.Waiting:
+                    EnableCanvas(waitingMenu);
+                    break;
+
+                case GameState.Connecting:
+                    EnableCanvas(connectingMenu);
+                    break;
                 default:
                     break;
             }
+        }
+
+        private void EnableCanvas(Canvas canvas) {
+            connectingMenu.enabled = false;
+            waitingMenu.enabled = false;
+            endGameCanvas.enabled = false;
+            pawnTransformationMenu.enabled = false;
+            mainMenu.enabled = false;
+            gameMenu.enabled = false;
+
+            canvas.enabled = true;
         }
 
         public void StartHotSeat() {
@@ -107,10 +120,15 @@ namespace ui {
         public void HostServerButton() {
             manager.ResetGame();
             manager.CreateHostPlayer();
+            manager.gameState = GameState.Waiting;
         }
         public void ConnectToServerButton() {
             manager.ResetGame();
-            manager.CreateClientPlayer();
+            manager.CreateClientPlayer(ipInputField.text);
+        }
+
+        public void ConnectMenuButton() {
+            manager.gameState = GameState.Connecting;
         }
 
         public void MainMenuButton() {
