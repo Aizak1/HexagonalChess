@@ -59,7 +59,7 @@ namespace game {
         public Move previousMove;
 
         public bool isWhiteTurn;
-        public bool isWhiteTeam = true;
+        public bool isWhiteTeam;
         public GameState gameState;
         public GameResult gameResult;
 
@@ -69,9 +69,10 @@ namespace game {
         }
 
         public void MakeMove(Move move) {
-
+            Figure figure = board[move.initX][move.initY].Peel();
+            Option<Figure> figureToEat = board[move.finalX][move.finalY];
             if (IsEnPassant(move, previousMove)) {
-                move.figureToEat = Option<Figure>.Some(previousMove.figure);
+                figureToEat = board[previousMove.finalX][previousMove.finalY];
             }
 
             previousMove = move;
@@ -80,8 +81,6 @@ namespace game {
                 MakeCastling(move, board);
             }
 
-            Figure figure = move.figure;
-            Option<Figure> figureToEat = move.figureToEat;
             figure.moveCount++;
 
             board[move.initX][move.initY] = Option<Figure>.None();
@@ -153,15 +152,10 @@ namespace game {
             int initX = move.initX;
             int initY = move.initY;
 
+            Figure figure = board[initX][initY].Peel();
 
-            if (move.figureToEat.IsSome()) {
-                var figureToEat = move.figureToEat.Peel();
-                boardCopy[figureToEat.x][figureToEat.y] = Option<Figure>.None();
-            }
-
-
+            boardCopy[move.finalX][move.finalY] = Option<Figure>.Some(figure);
             boardCopy[initX][initY] = Option<Figure>.None();
-            boardCopy[move.finalX][move.finalY] = Option<Figure>.Some(move.figure);
 
             boardCopy[move.finalX][move.finalY].Peel().x = move.finalX;
             boardCopy[move.finalX][move.finalY].Peel().y = move.finalY;
@@ -179,8 +173,8 @@ namespace game {
 
         public bool IsCorrectMovePattern(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
 
-            Figure figure = move.figure;
-            Option<Figure> figureToEat = move.figureToEat;
+            Figure figure = board[move.initX][move.initY].Peel();
+            Option<Figure> figureToEat = board[move.finalX][move.finalY];
 
             int delta2dX = Mathf.Abs(move.initX - move.finalX);
             int delta2dY = Mathf.Abs(move.initY - move.finalY);
@@ -463,11 +457,13 @@ namespace game {
                 return false;
             }
 
-            if (previousMove.figure.moveCount != 1) {
+            var prevMoveFigure = board[previousMove.finalX][previousMove.finalY].Peel();
+
+            if (prevMoveFigure.moveCount != 1) {
                 return false;
             }
 
-            if (previousMove.figure.type != FigureType.Pawn) {
+            if (prevMoveFigure.type != FigureType.Pawn) {
                 return false;
             }
 
@@ -488,7 +484,7 @@ namespace game {
 
             Vector2Int eatPos;
 
-            if (previousMove.figure.isWhite) {
+            if (prevMoveFigure.isWhite) {
                 eatPos = new Vector2Int(previousMove.finalX, previousMove.finalY - 1);
             } else {
                 eatPos = new Vector2Int(previousMove.finalX, previousMove.finalY + 1);
@@ -514,11 +510,12 @@ namespace game {
         }
 
         private bool IsCastling(Move move, Option<Figure>[][] board, bool isWhiteTurn) {
-            if (move.figure.moveCount != 0) {
+            Figure figure = board[move.initX][move.initY].Peel();
+            if (figure.moveCount != 0) {
                 return false;
             }
 
-            if (move.figure.type != FigureType.King) {
+            if (figure.type != FigureType.King) {
                 return false;
             }
 
@@ -532,7 +529,7 @@ namespace game {
 
             if (delta2dX == SHORT_CASTLING_DELTA) {
 
-                if (move.figure.isWhite) {
+                if (figure.isWhite) {
                     rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
                 } else {
                     rookCell = board[LEFT_BLACK_ROOK_POS.x][LEFT_BLACK_ROOK_POS.y];
@@ -540,7 +537,7 @@ namespace game {
 
             } else {
 
-                if (move.figure.isWhite) {
+                if (figure.isWhite) {
                     rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
                 } else {
                     rookCell = board[RIGHT_BLACK_ROOK_POS.x][RIGHT_BLACK_ROOK_POS.y];
@@ -548,7 +545,7 @@ namespace game {
 
             }
 
-            if (move.figure.isWhite) {
+            if (figure.isWhite) {
                 if (delta2dX == SHORT_CASTLING_DELTA && move.finalX < move.initX) {
                     return false;
                 }
@@ -615,10 +612,11 @@ namespace game {
             var delta2dX = Mathf.Abs(move.finalX - move.initX);
 
             Option<Figure> rookCell;
+            Figure figure = board[move.initX][move.initY].Peel();
             Figure rook;
 
             if (delta2dX == SHORT_CASTLING_DELTA) {
-                if (move.figure.isWhite) {
+                if (figure.isWhite) {
 
                     rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
@@ -641,7 +639,7 @@ namespace game {
                 }
             } else {
 
-                if (move.figure.isWhite) {
+                if (figure.isWhite) {
 
                     rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
@@ -700,8 +698,6 @@ namespace game {
 
             foreach (var item in opponentFigures) {
                 var move = new Move() {
-                    figure = item,
-                    figureToEat = king,
 
                     initX = item.x,
                     initY = item.y,
@@ -719,7 +715,7 @@ namespace game {
 
 
         public void TransformPawnToNewFigure(FigureType figureType) {
-            Figure pawnInTheEnd = previousMove.figure;
+            Figure pawnInTheEnd = board[previousMove.finalX][previousMove.finalY].Peel();
             Figure newFigure;
             var position = pawnInTheEnd.transform.position;
             var rotation = pawnInTheEnd.transform.rotation;
@@ -742,15 +738,16 @@ namespace game {
 
 
         private bool IsPawnRichEndOfTheBoard(Move move, Option<Figure>[][] board) {
-            if (move.figure.type != FigureType.Pawn) {
+            Figure figure = board[move.finalX][move.finalY].Peel();
+            if (figure.type != FigureType.Pawn) {
                 return false;
             }
 
-            if (move.figure.isWhite && move.finalY != board[move.finalX].Length - 1) {
+            if (figure.isWhite && move.finalY != board[move.finalX].Length - 1) {
                 return false;
             }
 
-            if (!move.figure.isWhite && move.finalY != 0) {
+            if (!figure.isWhite && move.finalY != 0) {
                 return false;
             }
 
@@ -792,8 +789,6 @@ namespace game {
                     for (int j = 0; j < board[i].Length; j++) {
 
                         var move = new Move() {
-                            figure = item,
-                            figureToEat = board[i][j],
 
                             initX = item.x,
                             initY = item.y,
@@ -833,8 +828,6 @@ namespace game {
                 for (int j = 0; j < board[i].Length; j++) {
 
                     var move = new Move() {
-                        figure = figure,
-                        figureToEat = board[i][j],
 
                         initX = figure.x,
                         initY = figure.y,
@@ -854,6 +847,7 @@ namespace game {
 
             gameState = GameState.InProcessing;
             isWhiteTurn = true;
+            isWhiteTeam = true;
 
             foreach (var item in resource.figuresToSetup) {
                 var cell = item.Key;
@@ -873,6 +867,7 @@ namespace game {
         }
 
         public void ResetGame() {
+            previousMove = null;
             var figuresInGame = FindObjectsOfType<Figure>();
             board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
             for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {

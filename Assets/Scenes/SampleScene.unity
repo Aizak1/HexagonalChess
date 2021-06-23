@@ -736,8 +736,8 @@ MonoBehaviour:
   - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
   - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
   - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
-  serverPrefab: {fileID: 0}
-  clientPrefab: {fileID: 0}
+  serverPrefab: {fileID: 6303880121999330687, guid: ad801655bd4b4254c84a037c9ef4fa08, type: 3}
+  clientPrefab: {fileID: 217875642637619775, guid: 1d13b5b514ddaa64699c2d3f79a55841, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &77186984
 Transform:
@@ -1544,8 +1544,8 @@ MonoBehaviour:
   - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
   - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
   - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
-  serverPrefab: {fileID: 0}
-  clientPrefab: {fileID: 0}
+  serverPrefab: {fileID: 6303880121999330687, guid: ad801655bd4b4254c84a037c9ef4fa08, type: 3}
+  clientPrefab: {fileID: 217875642637619775, guid: 1d13b5b514ddaa64699c2d3f79a55841, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &326475647
 Transform:
@@ -1736,7 +1736,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   resource: {fileID: 1447450044}
+  client: {fileID: 0}
   isWhiteTurn: 0
+  isWhiteTeam: 1
   gameState: 0
   gameResult: 0
 --- !u!1 &344927075
@@ -3072,8 +3074,8 @@ MonoBehaviour:
   - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
   - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
   - {fileID: 3028283965151246860, guid: f005021ceced8b240983e71a3d481180, type: 3}
-  serverPrefab: {fileID: 0}
-  clientPrefab: {fileID: 0}
+  serverPrefab: {fileID: 6303880121999330687, guid: ad801655bd4b4254c84a037c9ef4fa08, type: 3}
+  clientPrefab: {fileID: 217875642637619775, guid: 1d13b5b514ddaa64699c2d3f79a55841, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &558949642
 Transform:
@@ -9153,8 +9155,8 @@ MonoBehaviour:
   - {fileID: 6909041445840075979, guid: a007978aa14da3945b0f6655f65cc278, type: 3}
   - {fileID: -8505320436976077242, guid: 664a4dc6e997f5f47a9233db911328ac, type: 3}
   - {fileID: 185178352512788453, guid: a72c2cd1520039b4084a4a33dfeccf7e, type: 3}
-  serverPrefab: {fileID: 0}
-  clientPrefab: {fileID: 0}
+  serverPrefab: {fileID: 6303880121999330687, guid: ad801655bd4b4254c84a037c9ef4fa08, type: 3}
+  clientPrefab: {fileID: 217875642637619775, guid: 1d13b5b514ddaa64699c2d3f79a55841, type: 3}
   resource: {fileID: 1447450044}
 --- !u!4 &1972196598
 Transform:

@@ -59,8 +59,6 @@ namespace mover {
                 var gameFinalY = cellComponent.gameCoordinates.y;
 
                 Move move = new Move {
-                    figure = currentFigure.Peel(),
-                    figureToEat = manager.board[gameFinalX][gameFinalY],
 
                     initX = currentFigure.Peel().x,
                     initY = currentFigure.Peel().y,
