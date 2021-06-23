@@ -19,7 +19,7 @@ namespace net {
             clients = new List<TcpClient>();
 
             try {
-                listener = new TcpListener(IPAddress.Loopback, PORT);
+                listener = new TcpListener(IPAddress.Any, PORT);
                 listener.Start();
 
                 StartListening();

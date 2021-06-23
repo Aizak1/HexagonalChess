@@ -99,10 +99,17 @@ namespace ui {
         }
 
         public void HostServerButton() {
+            manager.ResetGame();
             manager.CreateHostPlayer();
         }
         public void ConnectToServerButton() {
+            manager.ResetGame();
             manager.CreateClientPlayer();
+        }
+
+        public void MainMenuButton() {
+            manager.ResetGame();
+            manager.gameState = GameState.NotStarted;
         }
 
         public void Quit() {

@@ -905,6 +905,11 @@ namespace game {
                 isWhiteTeam = true;
             }
 
+            board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
+            for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
+                board[i] = new Option<Figure>[CELLS_IN_VERTICAL_AMOUNT[i]];
+            }
+
             foreach (var item in resource.figuresToSetup) {
                 var cell = item.Key;
 
@@ -923,6 +928,14 @@ namespace game {
         }
 
         public void ResetGame() {
+
+            if(client != null) {
+                Destroy(client.gameObject);
+            }
+            if(server != null) {
+                Destroy(server.gameObject);
+            }
+
             previousMove = null;
             var figuresInGame = FindObjectsOfType<Figure>();
             board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
