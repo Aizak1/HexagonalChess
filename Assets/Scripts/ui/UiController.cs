@@ -30,10 +30,12 @@ namespace ui {
         [SerializeField]
         private Canvas gameMenu;
 
+
         [SerializeField]
         private Canvas connectingMenu;
         [SerializeField]
         private Canvas waitingMenu;
+
 
         [SerializeField]
         private Text endGameText;

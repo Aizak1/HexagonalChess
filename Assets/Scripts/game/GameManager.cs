@@ -57,6 +57,9 @@ namespace game {
 
         private const int KING_MAX_2D_X_DELTA = 3;
 
+        private const int PORT_FOR_CONNECTION = 6666;
+        private const string DEFAULT_IP = "127.0.0.1";
+
 
         public Option<Figure>[][] board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
         public Move previousMove;
@@ -866,14 +869,14 @@ namespace game {
         }
 
         public void CreateHostPlayer() {
-            string hostAddress = "127.0.0.1";
+            string hostAddress = DEFAULT_IP;
             try {
                 Server server = Instantiate(resource.serverPrefab);
                 server.Init();
                 this.server = server;
 
                 Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, 6666);
+                client.ConnectToServer(hostAddress, PORT_FOR_CONNECTION);
 
                 client.manager = this;
                 this.client = client;
@@ -885,12 +888,12 @@ namespace game {
 
         public void CreateClientPlayer(string hostAddress) {
             if (string.IsNullOrWhiteSpace(hostAddress)) {
-                hostAddress = "127.0.0.1";
+                hostAddress = DEFAULT_IP;
             }
 
             try {
                 Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, 6666);
+                client.ConnectToServer(hostAddress, PORT_FOR_CONNECTION);
                 client.manager = this;
                 this.client = client;
                 isWhiteTeam = false;
