@@ -79,7 +79,7 @@ namespace ui {
             }
         }
 
-        public void StartNewGame() {
+        public void StartHotSeat() {
             manager.ResetGame();
             manager.InitializeGame();
         }

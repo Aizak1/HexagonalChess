@@ -104,7 +104,6 @@ namespace game {
             if (client != null && isWhiteTeam != isWhiteTurn) {
                 string sendData =
                     $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
-                Debug.Log(sendData);
                 client.Send(sendData);
 
             }
