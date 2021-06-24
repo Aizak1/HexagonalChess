@@ -16,7 +16,8 @@ namespace game {
         Finished,
         Waiting,
         Connecting,
-        Disconnect
+        Disconnect,
+        UnableToConnect
     }
 
     public enum GameResult {
@@ -874,13 +875,16 @@ namespace game {
                 this.server = server;
 
                 Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, Server.PORT);
-
                 client.manager = this;
                 this.client = client;
                 isWhiteTeam = true;
+
+                if (!client.ConnectToServer(hostAddress, Server.PORT)) {
+                    Destroy(client.gameObject);
+                }
+
             } catch (Exception ex) {
-                Debug.Log(ex.Message);
+                Debug.LogError(ex.Message);
             }
         }
 
@@ -891,13 +895,17 @@ namespace game {
 
             try {
                 Client client = Instantiate(resource.clientPrefab);
-                client.ConnectToServer(hostAddress, Server.PORT);
                 client.manager = this;
                 this.client = client;
                 isWhiteTeam = false;
 
+                if (!client.ConnectToServer(hostAddress, Server.PORT)) {
+                    Destroy(client.gameObject);
+                }
+
+
             } catch (Exception ex) {
-                Debug.Log(ex.Message);
+                Debug.LogError(ex.Message);
             }
         }
 

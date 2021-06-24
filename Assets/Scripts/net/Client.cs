@@ -82,6 +82,7 @@ namespace net {
                 isSocketReady = true;
 
             } catch (Exception e) {
+                manager.gameState = GameState.UnableToConnect;
                 Debug.LogError("Socket error " + e.Message);
 
             }

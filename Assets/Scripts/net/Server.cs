@@ -44,18 +44,21 @@ namespace net {
                     StreamReader reader = new StreamReader(stream, true);
                     string data = reader.ReadLine();
                     if(data != null) {
-                        SendDataToAnotherClient(client, data);
+                        SendDataFromClient(client, data);
                     }
                 }
             }
         }
 
-        private void SendDataToAnotherClient(TcpClient client, string data) {
+        private void SendDataFromClient(TcpClient client, string data) {
             TcpClient clientForSend = new TcpClient();
             foreach (var item in clients) {
                 if(item != client) {
                     clientForSend = item;
                 }
+            }
+            if(!clientForSend.Connected) {
+                return;
             }
 
             try {
@@ -93,7 +96,7 @@ namespace net {
             }
         }
         private void OnDestroy() {
-            SendDataToAnotherClient(clients[0],Client.DISCONNECT_COMMAND);
+            SendDataFromClient(clients[0],Client.DISCONNECT_COMMAND);
             listener.Stop();
         }
     }

@@ -37,6 +37,8 @@ namespace ui {
         private Canvas waitingMenu;
         [SerializeField]
         private Canvas disconnectMenu;
+        [SerializeField]
+        private Canvas unableToConnectMenu;
 
 
         [SerializeField]
@@ -91,6 +93,10 @@ namespace ui {
                 case GameState.Disconnect:
                     EnableCanvas(disconnectMenu);
                     break;
+                case GameState.UnableToConnect:
+                        EnableCanvas(unableToConnectMenu);
+                    break;
+
                 default:
                     break;
             }
@@ -100,6 +106,8 @@ namespace ui {
             disconnectMenu.enabled = false;
             connectingMenu.enabled = false;
             waitingMenu.enabled = false;
+            unableToConnectMenu.enabled = false;
+
             endGameCanvas.enabled = false;
             pawnTransformationMenu.enabled = false;
             mainMenu.enabled = false;
