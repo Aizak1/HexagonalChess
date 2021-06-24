@@ -60,7 +60,7 @@ namespace ui {
                     break;
 
                 case GameState.Paused:
-                    if(manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
+                    if (manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
                         EnableCanvas(gameMenu);
                         return;
                     }

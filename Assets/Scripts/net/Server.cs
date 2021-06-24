@@ -11,6 +11,8 @@ namespace net {
         public const int PORT = 6321;
         public const string DEFAULT_IP = "127.0.0.1";
 
+        private const int CLIENTS_AMOUNT_TO_START = 2;
+
         private List<TcpClient> clients;
 
         public TcpListener listener;
@@ -43,7 +45,7 @@ namespace net {
                 if (stream.DataAvailable) {
                     StreamReader reader = new StreamReader(stream, true);
                     string data = reader.ReadLine();
-                    if(data != null) {
+                    if (data != null) {
                         SendDataFromClient(client, data);
                     }
                 }
@@ -53,7 +55,7 @@ namespace net {
         private void SendDataFromClient(TcpClient client, string data) {
             TcpClient clientForSend = new TcpClient();
             foreach (var item in clients) {
-                if(item != client) {
+                if (item != client) {
                     clientForSend = item;
                 }
             }
@@ -79,7 +81,7 @@ namespace net {
 
             var tcpClient = listener.EndAcceptTcpClient(ar);
             clients.Add(tcpClient);
-            if (clients.Count != 2) {
+            if (clients.Count != CLIENTS_AMOUNT_TO_START) {
                 StartListening();
                 return;
             }
@@ -96,8 +98,9 @@ namespace net {
             }
         }
         private void OnDestroy() {
-            if(clients.Count != 0) {
-            SendDataFromClient(clients[0],Client.DISCONNECT_COMMAND);
+            if (clients.Count != 0) {
+                var host = clients[0];
+                SendDataFromClient(host,Client.DISCONNECT_COMMAND);
             }
             listener.Stop();
         }

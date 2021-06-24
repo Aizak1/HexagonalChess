@@ -165,7 +165,7 @@ namespace game {
         }
 
         public bool IsCorrectSelect(Figure figure) {
-            if(figure.isWhite != isWhiteTeam) {
+            if (figure.isWhite != isWhiteTeam) {
                 return false;
             }
             return true;
@@ -937,7 +937,7 @@ namespace game {
             gameState = GameState.InProcessing;
             isWhiteTurn = true;
 
-            if(client == null) {
+            if (client == null) {
                 isWhiteTeam = true;
 
                 camera.transform.localPosition = CAMERA_HOTSEAT_POS;
@@ -976,10 +976,10 @@ namespace game {
 
         public void ResetGame() {
 
-            if(client != null) {
+            if (client != null) {
                 Destroy(client.gameObject);
             }
-            if(server != null) {
+            if (server != null) {
                 Destroy(server.gameObject);
             }
 

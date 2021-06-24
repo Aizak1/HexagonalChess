@@ -48,7 +48,7 @@ namespace mover {
 
                 var cellComponent = hit.collider.gameObject.GetComponent<Cell>();
 
-                if(cellComponent == null) {
+                if (cellComponent == null) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
                     uiController.UnHighlightFigureMoves();
