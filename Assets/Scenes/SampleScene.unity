@@ -991,7 +991,7 @@ GameObject:
   - component: {fileID: 139509906}
   - component: {fileID: 139509905}
   m_Layer: 0
-  m_Name: New Game
+  m_Name: HotSeat
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1063,7 +1063,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 555382054}
         m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
-        m_MethodName: StartHotSeat
+        m_MethodName: HotSeatButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2117,8 +2117,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: Quit
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: QuitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2250,8 +2250,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: TransformPawnToNewFigureUi
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4859,8 +4859,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: TransformPawnToNewFigureUi
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5077,8 +5077,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: Quit
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: QuitButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -8787,8 +8787,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: TransformPawnToNewFigureUi
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -9984,8 +9984,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 555382054}
-        m_TargetAssemblyTypeName: UiController, Assembly-CSharp
-        m_MethodName: TransformPawnToNewFigureUi
+        m_TargetAssemblyTypeName: ui.UiController, Assembly-CSharp
+        m_MethodName: TransformPawnToNewFigureButton
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

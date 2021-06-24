@@ -53,6 +53,7 @@ namespace ui {
                     if(manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
                         return;
                     }
+
                     EnableCanvas(pawnTransformationMenu);
                     break;
                 case GameState.InProcessing:
@@ -100,11 +101,11 @@ namespace ui {
             canvas.enabled = true;
         }
 
-        public void StartHotSeat() {
+        public void HotSeatButton() {
             manager.InitializeGame();
         }
 
-        public void TransformPawnToNewFigureUi(string figureTypeName) {
+        public void TransformPawnToNewFigureButton(string figureTypeName) {
             if (!Enum.TryParse(figureTypeName, out FigureType figureType)) {
                 Debug.LogError("Invalid enum type");
                 return;
@@ -135,7 +136,7 @@ namespace ui {
             manager.gameState = GameState.NotStarted;
         }
 
-        public void Quit() {
+        public void QuitButton() {
             Application.Quit();
         }
 
