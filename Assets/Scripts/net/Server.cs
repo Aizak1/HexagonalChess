@@ -44,13 +44,13 @@ namespace net {
                     StreamReader reader = new StreamReader(stream, true);
                     string data = reader.ReadLine();
                     if(data != null) {
-                        ProcessIncomingData(client, data);
+                        SendDataToAnotherClient(client, data);
                     }
                 }
             }
         }
 
-        private void ProcessIncomingData(TcpClient client, string data) {
+        private void SendDataToAnotherClient(TcpClient client, string data) {
             TcpClient clientForSend = new TcpClient();
             foreach (var item in clients) {
                 if(item != client) {
@@ -84,7 +84,7 @@ namespace net {
             foreach (var item in clients) {
                 try {
                     StreamWriter writer = new StreamWriter(item.GetStream());
-                    writer.WriteLine("START");
+                    writer.WriteLine(Client.START_COMMAND);
                     writer.Flush();
                 } catch (Exception ex) {
                     Debug.Log("Write error : " + ex.Message);
@@ -93,6 +93,7 @@ namespace net {
             }
         }
         private void OnDestroy() {
+            SendDataToAnotherClient(clients[0],Client.DISCONNECT_COMMAND);
             listener.Stop();
         }
     }

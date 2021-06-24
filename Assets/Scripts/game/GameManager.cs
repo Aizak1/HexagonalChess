@@ -15,7 +15,8 @@ namespace game {
         InProcessing,
         Finished,
         Waiting,
-        Connecting
+        Connecting,
+        Disconnect
     }
 
     public enum GameResult {
@@ -105,7 +106,7 @@ namespace game {
 
             if (client != null && isWhiteTeam != isWhiteTurn) {
                 string sendData =
-                    $"MOVE|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
+                  $"{Client.MOVE_COMMAND}|{move.initX}|{move.initY}|{move.finalX}|{move.finalY}";
                 client.Send(sendData);
 
             }
@@ -584,7 +585,7 @@ namespace game {
 
             var rook = rookCell.Peel();
 
-            if (rookCell.Peel().moveCount > 0) {
+            if (rook.moveCount > 0) {
                 return false;
             }
 
@@ -624,11 +625,11 @@ namespace game {
             var delta2dX = Mathf.Abs(move.finalX - move.initX);
 
             Option<Figure> rookCell;
-            Figure figure = board[move.initX][move.initY].Peel();
+            Figure king = board[move.initX][move.initY].Peel();
             Figure rook;
 
             if (delta2dX == SHORT_CASTLING_DELTA) {
-                if (figure.isWhite) {
+                if (king.isWhite) {
 
                     rookCell = board[RIGHT_WHITE_ROOK_POS.x][RIGHT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
@@ -651,7 +652,7 @@ namespace game {
                 }
             } else {
 
-                if (figure.isWhite) {
+                if (king.isWhite) {
 
                     rookCell = board[LEFT_WHITE_ROOK_POS.x][LEFT_WHITE_ROOK_POS.y];
                     rook = rookCell.Peel();
@@ -905,6 +906,7 @@ namespace game {
 
             gameState = GameState.InProcessing;
             isWhiteTurn = true;
+
             if(client == null) {
                 isWhiteTeam = true;
             }

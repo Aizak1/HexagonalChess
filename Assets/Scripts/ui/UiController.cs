@@ -35,6 +35,8 @@ namespace ui {
         private Canvas connectingMenu;
         [SerializeField]
         private Canvas waitingMenu;
+        [SerializeField]
+        private Canvas disconnectMenu;
 
 
         [SerializeField]
@@ -51,6 +53,7 @@ namespace ui {
 
                 case GameState.Paused:
                     if(manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
+                        EnableCanvas(gameMenu);
                         return;
                     }
 
@@ -85,12 +88,16 @@ namespace ui {
                 case GameState.Connecting:
                     EnableCanvas(connectingMenu);
                     break;
+                case GameState.Disconnect:
+                    EnableCanvas(disconnectMenu);
+                    break;
                 default:
                     break;
             }
         }
 
         private void EnableCanvas(Canvas canvas) {
+            disconnectMenu.enabled = false;
             connectingMenu.enabled = false;
             waitingMenu.enabled = false;
             endGameCanvas.enabled = false;
@@ -112,7 +119,7 @@ namespace ui {
             }
             manager.TransformPawnToNewFigure(figureType);
             if(manager.client != null) {
-                string msg = $"TRANSFORM|{(int)figureType}";
+                string msg = $"{Client.TRANSFORM_COMMAND}|{(int)figureType}";
                 manager.client.Send(msg);
             }
 

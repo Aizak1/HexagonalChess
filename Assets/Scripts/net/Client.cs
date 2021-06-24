@@ -17,6 +17,11 @@ namespace net {
         private StreamWriter writer;
         private StreamReader reader;
 
+        public const string MOVE_COMMAND = "MOVE";
+        public const string TRANSFORM_COMMAND = "TRANSFORM";
+        public const string START_COMMAND = "START";
+        public const string DISCONNECT_COMMAND = "DISCONECT";
+
         private void Update() {
             if (!isSocketReady) {
                 return;
@@ -37,7 +42,7 @@ namespace net {
             string[] sendData = data.Split('|');
 
             switch (sendData[0]) {
-                case "MOVE":
+                case MOVE_COMMAND:
                     Move move = new Move {
                         initX = int.Parse(sendData[1]),
                         initY = int.Parse(sendData[2]),
@@ -47,15 +52,18 @@ namespace net {
                     manager.MakeMove(move);
 
                     break;
-                case "START":
+                case START_COMMAND:
 
                     manager.InitializeGame();
 
                     break;
 
-                case "TRANSFORM":
+                case TRANSFORM_COMMAND:
                     var figureType = (FigureType)int.Parse(sendData[1]);
                     manager.TransformPawnToNewFigure(figureType);
+                    break;
+                case DISCONNECT_COMMAND:
+                    manager.gameState = GameState.Disconnect;
                     break;
             }
         }
@@ -94,6 +102,8 @@ namespace net {
             if (!isSocketReady) {
                 return;
             }
+
+            Send(DISCONNECT_COMMAND);
 
             writer.Close();
             reader.Close();
