@@ -48,6 +48,10 @@ namespace ui {
         [SerializeField]
         private InputField ipInputField;
 
+        private const string DRAW_TEXT = "Draw";
+        private const string WHITE_WIN_TEXT = "White win";
+        private const string BLACK_WIN_TEXT = "Black win";
+
         private void Update() {
             switch (manager.gameState) {
 
@@ -73,15 +77,15 @@ namespace ui {
                     EnableCanvas(endGameCanvas);
                     if (manager.gameResult == GameResult.Draw) {
 
-                        endGameText.text = "Draw";
+                        endGameText.text = DRAW_TEXT;
 
                     } else if (manager.gameResult == GameResult.WhiteWin) {
 
-                        endGameText.text = "White Win";
+                        endGameText.text = WHITE_WIN_TEXT;
 
                     } else if (manager.gameResult == GameResult.BlackWin) {
 
-                        endGameText.text = "Black Win";
+                        endGameText.text = BLACK_WIN_TEXT;
 
                     }
                     break;

@@ -70,6 +70,20 @@ namespace game {
         public GameState gameState;
         public GameResult gameResult;
 
+        [SerializeField]
+        private Camera camera;
+        [SerializeField]
+        private GameObject cameraPivot;
+
+
+        public readonly Vector3 CAMERA_HOTSEAT_POS = new Vector3(0.5254066f, 8.942341f, -4.24f);
+        public readonly Vector3 CAMERA_HOTSEAT_ROT = new Vector3(65.011f, -1.895f, 0.183f);
+
+        public readonly Vector3 CAMERA_ONLINE_POS = new Vector3(0.641638f,7.212465f,-5.334049f);
+        public readonly Vector3 CAMERA_ONLINE_ROT = new Vector3(57.342f, -0.687f, 0.001f);
+
+        public const int CAMERA_PIVOT_ROTATION_ANGLE = 180;
+
 
         private void Start() {
             gameState = GameState.NotStarted;
@@ -923,6 +937,18 @@ namespace game {
 
             if(client == null) {
                 isWhiteTeam = true;
+
+                camera.transform.localPosition = CAMERA_HOTSEAT_POS;
+                camera.transform.localEulerAngles = CAMERA_HOTSEAT_ROT;
+                cameraPivot.transform.localEulerAngles = new Vector3(0, 0, 0);
+
+            } else {
+                camera.transform.localPosition = CAMERA_ONLINE_POS;
+                camera.transform.localEulerAngles = CAMERA_ONLINE_ROT;
+                if (!isWhiteTeam) {
+                    var rotation = new Vector3(0, CAMERA_PIVOT_ROTATION_ANGLE,0);
+                    cameraPivot.transform.localEulerAngles = rotation;
+                }
             }
 
             board = new Option<Figure>[BOARD_VERTICALS_AMOUNT][];
@@ -955,6 +981,10 @@ namespace game {
             if(server != null) {
                 Destroy(server.gameObject);
             }
+
+            camera.transform.localPosition = CAMERA_HOTSEAT_POS;
+            camera.transform.localEulerAngles = CAMERA_HOTSEAT_ROT;
+            cameraPivot.transform.Rotate(0, 0, 0);
 
             previousMove = null;
             var figuresInGame = FindObjectsOfType<Figure>();
