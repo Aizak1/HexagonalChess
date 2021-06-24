@@ -39,6 +39,8 @@ namespace ui {
         private Canvas disconnectMenu;
         [SerializeField]
         private Canvas unableToConnectMenu;
+        [SerializeField]
+        private Canvas unableToHostMenu;
 
 
         [SerializeField]
@@ -90,11 +92,17 @@ namespace ui {
                 case GameState.Connecting:
                     EnableCanvas(connectingMenu);
                     break;
+
                 case GameState.Disconnect:
                     EnableCanvas(disconnectMenu);
                     break;
+
                 case GameState.UnableToConnect:
                         EnableCanvas(unableToConnectMenu);
+                    break;
+
+                case GameState.UnableToHost:
+                    EnableCanvas(unableToHostMenu);
                     break;
 
                 default:
@@ -107,6 +115,7 @@ namespace ui {
             connectingMenu.enabled = false;
             waitingMenu.enabled = false;
             unableToConnectMenu.enabled = false;
+            unableToHostMenu.enabled = false;
 
             endGameCanvas.enabled = false;
             pawnTransformationMenu.enabled = false;
@@ -136,7 +145,6 @@ namespace ui {
 
         public void HostServerButton() {
             manager.CreateHostPlayer();
-            manager.gameState = GameState.Waiting;
         }
         public void ConnectToServerButton() {
             manager.CreateClientPlayer(ipInputField.text);

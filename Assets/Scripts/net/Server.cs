@@ -13,7 +13,7 @@ namespace net {
 
         private List<TcpClient> clients;
 
-        private TcpListener listener;
+        public TcpListener listener;
         private bool isServerProcesing;
 
         public void Init() {
@@ -96,7 +96,9 @@ namespace net {
             }
         }
         private void OnDestroy() {
+            if(clients.Count != 0) {
             SendDataFromClient(clients[0],Client.DISCONNECT_COMMAND);
+            }
             listener.Stop();
         }
     }

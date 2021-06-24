@@ -14,10 +14,12 @@ namespace game {
         Paused,
         InProcessing,
         Finished,
+
         Waiting,
         Connecting,
         Disconnect,
-        UnableToConnect
+        UnableToConnect,
+        UnableToHost
     }
 
     public enum GameResult {
@@ -873,6 +875,7 @@ namespace game {
                 Server server = Instantiate(resource.serverPrefab);
                 server.Init();
                 this.server = server;
+                server.listener.Pending();
 
                 Client client = Instantiate(resource.clientPrefab);
                 client.manager = this;
@@ -882,8 +885,11 @@ namespace game {
                 if (!client.ConnectToServer(hostAddress, Server.PORT)) {
                     Destroy(client.gameObject);
                 }
+                gameState = GameState.Waiting;
 
             } catch (Exception ex) {
+                Destroy(server.gameObject);
+                gameState = GameState.UnableToHost;
                 Debug.LogError(ex.Message);
             }
         }
