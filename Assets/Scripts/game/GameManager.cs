@@ -71,7 +71,7 @@ namespace game {
         public GameResult gameResult;
 
         [SerializeField]
-        private Camera camera;
+        private new Camera camera;
         [SerializeField]
         private GameObject cameraPivot;
 
@@ -82,7 +82,9 @@ namespace game {
         public readonly Vector3 CAMERA_ONLINE_POS = new Vector3(0.641638f,7.212465f,-5.334049f);
         public readonly Vector3 CAMERA_ONLINE_ROT = new Vector3(57.342f, -0.687f, 0.001f);
 
-        public const int CAMERA_PIVOT_ROTATION_ANGLE = 180;
+        public readonly Vector3 CAMERA_PIVOT_DEFAULT_ROT = new Vector3(0, 0, 0);
+        public readonly Vector3 CAMERA_PIVOT_BLACK_TEAM_ROT = new Vector3(0, 180, 0);
+
 
 
         private void Start() {
@@ -940,14 +942,13 @@ namespace game {
 
                 camera.transform.localPosition = CAMERA_HOTSEAT_POS;
                 camera.transform.localEulerAngles = CAMERA_HOTSEAT_ROT;
-                cameraPivot.transform.localEulerAngles = new Vector3(0, 0, 0);
+                cameraPivot.transform.localEulerAngles = CAMERA_PIVOT_DEFAULT_ROT;
 
             } else {
                 camera.transform.localPosition = CAMERA_ONLINE_POS;
                 camera.transform.localEulerAngles = CAMERA_ONLINE_ROT;
                 if (!isWhiteTeam) {
-                    var rotation = new Vector3(0, CAMERA_PIVOT_ROTATION_ANGLE,0);
-                    cameraPivot.transform.localEulerAngles = rotation;
+                    cameraPivot.transform.localEulerAngles = CAMERA_PIVOT_BLACK_TEAM_ROT;
                 }
             }
 
@@ -984,7 +985,7 @@ namespace game {
 
             camera.transform.localPosition = CAMERA_HOTSEAT_POS;
             camera.transform.localEulerAngles = CAMERA_HOTSEAT_ROT;
-            cameraPivot.transform.Rotate(0, 0, 0);
+            cameraPivot.transform.localEulerAngles = CAMERA_PIVOT_DEFAULT_ROT;
 
             previousMove = null;
             var figuresInGame = FindObjectsOfType<Figure>();
