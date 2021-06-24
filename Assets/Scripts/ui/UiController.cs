@@ -101,7 +101,6 @@ namespace ui {
         }
 
         public void StartHotSeat() {
-            manager.ResetGame();
             manager.InitializeGame();
         }
 
@@ -120,12 +119,10 @@ namespace ui {
         }
 
         public void HostServerButton() {
-            manager.ResetGame();
             manager.CreateHostPlayer();
             manager.gameState = GameState.Waiting;
         }
         public void ConnectToServerButton() {
-            manager.ResetGame();
             manager.CreateClientPlayer(ipInputField.text);
         }
 

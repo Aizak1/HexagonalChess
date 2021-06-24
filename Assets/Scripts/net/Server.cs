@@ -8,7 +8,8 @@ using UnityEngine;
 
 namespace net {
     public class Server : MonoBehaviour {
-        public const int PORT = 6666;
+        public const int PORT = 6321;
+        public const string DEFAULT_IP = "127.0.0.1";
 
         private List<TcpClient> clients;
 
