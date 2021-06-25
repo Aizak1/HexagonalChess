@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using move;
 
 namespace ui {
     public class UiController : MonoBehaviour {
+
         [SerializeField]
         private GameManager manager;
-        [SerializeField]
-        private GameResource resource;
 
         [SerializeField]
         private Material hexagonMaterial;
@@ -26,7 +26,7 @@ namespace ui {
         [SerializeField]
         private Canvas pawnTransformationMenu;
         [SerializeField]
-        private Canvas endGameCanvas;
+        private Canvas endGameMenu;
         [SerializeField]
         private Canvas gameMenu;
 
@@ -56,25 +56,25 @@ namespace ui {
             switch (manager.gameState) {
 
                 case GameState.NotStarted:
-                    EnableCanvas(mainMenu);
+                    SwitchCanvas(mainMenu);
                     break;
 
                 case GameState.Paused:
                     if (manager.client != null && manager.isWhiteTeam == manager.isWhiteTurn) {
-                        EnableCanvas(gameMenu);
+                        SwitchCanvas(gameMenu);
                         return;
                     }
 
-                    EnableCanvas(pawnTransformationMenu);
+                    SwitchCanvas(pawnTransformationMenu);
                     break;
                 case GameState.InProcessing:
 
-                    EnableCanvas(gameMenu);
+                    SwitchCanvas(gameMenu);
 
                     break;
                 case GameState.Finished:
 
-                    EnableCanvas(endGameCanvas);
+                    SwitchCanvas(endGameMenu);
                     if (manager.gameResult == GameResult.Draw) {
 
                         endGameText.text = DRAW_TEXT;
@@ -90,23 +90,23 @@ namespace ui {
                     }
                     break;
                 case GameState.Waiting:
-                    EnableCanvas(waitingMenu);
+                    SwitchCanvas(waitingMenu);
                     break;
 
                 case GameState.Connecting:
-                    EnableCanvas(connectingMenu);
+                    SwitchCanvas(connectingMenu);
                     break;
 
                 case GameState.Disconnect:
-                    EnableCanvas(disconnectMenu);
+                    SwitchCanvas(disconnectMenu);
                     break;
 
                 case GameState.UnableToConnect:
-                        EnableCanvas(unableToConnectMenu);
+                        SwitchCanvas(unableToConnectMenu);
                     break;
 
                 case GameState.UnableToHost:
-                    EnableCanvas(unableToHostMenu);
+                    SwitchCanvas(unableToHostMenu);
                     break;
 
                 default:
@@ -114,14 +114,14 @@ namespace ui {
             }
         }
 
-        private void EnableCanvas(Canvas canvas) {
+        private void SwitchCanvas(Canvas canvas) {
             disconnectMenu.enabled = false;
             connectingMenu.enabled = false;
             waitingMenu.enabled = false;
             unableToConnectMenu.enabled = false;
             unableToHostMenu.enabled = false;
 
-            endGameCanvas.enabled = false;
+            endGameMenu.enabled = false;
             pawnTransformationMenu.enabled = false;
             mainMenu.enabled = false;
             gameMenu.enabled = false;
@@ -139,8 +139,8 @@ namespace ui {
                 return;
             }
             manager.TransformPawnToNewFigure(figureType);
-            if(manager.client != null) {
-                string msg = $"{Client.TRANSFORM_COMMAND}|{(int)figureType}";
+            if (manager.client != null) {
+                string msg = $"{Client.PAWN_TRANSFORM_COMMAND}|{(int)figureType}";
                 manager.client.Send(msg);
             }
 
@@ -169,8 +169,8 @@ namespace ui {
 
         public void HighlightFigureMoves(Figure figure) {
             highlightedCells = new List<Cell>();
-            var cells = FindObjectsOfType<Cell>();
-            var figureMoves = manager.GetAllCurrentFigureMoves(figure);
+            Cell[] cells = FindObjectsOfType<Cell>();
+            List<Move> figureMoves = manager.GetAllCurrentFigureMoves(figure);
 
             foreach (var cell in cells) {
                 foreach (var move in figureMoves) {

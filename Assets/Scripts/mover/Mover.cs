@@ -25,7 +25,7 @@ namespace mover {
                 return;
             }
 
-            manager.ChangeCollidersState();
+            manager.DisableOpponentFiguresColliders();
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (!Physics.Raycast(ray, out hit)) {
@@ -68,7 +68,7 @@ namespace mover {
                 };
 
 
-                if (!manager.IsCorrectMove(move,manager.board,manager.isWhiteTurn)) {
+                if (!manager.IsCorrectMove(move, manager.board, manager.isWhiteTurn)) {
                     currentFigure.Peel().transform.position -= Vector3.up;
                     currentFigure = Option<Figure>.None();
 

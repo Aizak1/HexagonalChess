@@ -797,7 +797,7 @@ namespace game {
         }
 
 
-        public void ChangeCollidersState() {
+        public void DisableOpponentFiguresColliders() {
 
             for (int i = 0; i < BOARD_VERTICALS_AMOUNT; i++) {
                 for (int j = 0; j < board[i].Length; j++) {

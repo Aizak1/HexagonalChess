@@ -18,9 +18,11 @@ namespace net {
         private StreamReader reader;
 
         public const string MOVE_COMMAND = "MOVE";
-        public const string TRANSFORM_COMMAND = "TRANSFORM";
+        public const string PAWN_TRANSFORM_COMMAND = "TRANSFORM";
         public const string START_COMMAND = "START";
         public const string DISCONNECT_COMMAND = "DISCONECT";
+
+        private const char COMMAND_SEPORATOR = '|';
 
         private void Update() {
             if (!isSocketReady) {
@@ -39,7 +41,7 @@ namespace net {
         }
 
         private void ProcessIncomingData(string data) {
-            string[] sendData = data.Split('|');
+            string[] sendData = data.Split(COMMAND_SEPORATOR);
 
             switch (sendData[0]) {
                 case MOVE_COMMAND:
@@ -58,7 +60,7 @@ namespace net {
 
                     break;
 
-                case TRANSFORM_COMMAND:
+                case PAWN_TRANSFORM_COMMAND:
                     var figureType = (FigureType)int.Parse(sendData[1]);
                     manager.TransformPawnToNewFigure(figureType);
                     break;

@@ -52,10 +52,10 @@ namespace net {
             }
         }
 
-        private void SendDataFromClient(TcpClient client, string data) {
+        private void SendDataFromClient(TcpClient clientWhoSends, string data) {
             TcpClient clientForSend = new TcpClient();
             foreach (var item in clients) {
-                if (item != client) {
+                if (item != clientWhoSends) {
                     clientForSend = item;
                 }
             }
@@ -85,12 +85,16 @@ namespace net {
                 StartListening();
                 return;
             }
+
             isServerProcesing = true;
+
             foreach (var item in clients) {
                 try {
+
                     StreamWriter writer = new StreamWriter(item.GetStream());
                     writer.WriteLine(Client.START_COMMAND);
                     writer.Flush();
+
                 } catch (Exception ex) {
                     Debug.Log("Write error : " + ex.Message);
                     return;
